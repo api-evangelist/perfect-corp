@@ -1,0 +1,985 @@
+generated: '2026-09-02'
+method: derived
+source: mcp/perfect-corp-{beauty,fashion,creators}-tools-list.json (live anonymous tools/list) bound to openapi/_original/*.json
+  (docs.perfectcorp.com/_bundle/reference/*.json)
+name: Perfect Corp YouCam API — MCP tool / REST operation crosswalk
+description: Binds every tool published by the three hosted YouCam MCP servers to the REST operation(s) in the per-feature
+  OpenAPI 3.0.0 contracts Perfect Corp publishes. The published contracts declare NO operationId on any of their
+  178 operations, so each REST operation is addressed here as "METHOD path"; that absence is recorded as a finding
+  rather than repaired, because the pipeline never mutates a provider contract.
+surfaces:
+  openapi:
+    count: 65
+    location: openapi/
+    source: https://docs.perfectcorp.com/_bundle/reference/<feature>.json?download
+    gated: false
+    note: One OpenAPI 3.0.0 document per feature; all 65 declare servers[0].url https://yce-api-01.makeupar.com.
+  mcp:
+  - name: YouCam for Beauty & Skin Care
+    url: https://mcp-api-01.makeupar.com/mcp/beauty
+    tools: 47
+    gated: false
+    note: 'initialize + tools/list answer anonymously; tool INVOCATION requires Authorization: Bearer <API key>.'
+  - name: YouCam for Fashion & Retail
+    url: https://mcp-api-01.makeupar.com/mcp/fashion
+    tools: 18
+    gated: false
+  - name: YouCam for Creators
+    url: https://mcp-api-01.makeupar.com/mcp/creators
+    tools: 34
+    gated: false
+  - name: Docs MCP server
+    url: https://docs.perfectcorp.com/mcp
+    tools: 6
+    gated: false
+    excluded_from_crosswalk: true
+    note: Documentation-search MCP served by the docs platform on the provider domain; its tools read the docs,
+      not the API, so they are not bound to REST operations here.
+  graphql: null
+coverage:
+  mcp_tools_total: 99
+  mcp_tools_distinct: 89
+  rest_operations_total: 178
+  crosswalked: 86
+  mcp_only: 3
+  rest_only_specs: 1
+  note: 99 tool registrations across three servers collapse to 89 distinct tool names — upload_file, File-Upload,
+    Get-Running-Task-Status, Get-Upload-API-Info and Get-Feature-Cost are registered on all three servers.
+crosswalk:
+- tool: AI-Abs-Filter
+  category: task
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/abs-shape
+  spec: openapi/perfect-corp-ai_abs_filter-openapi.yml
+  binding: one-to-one
+  confidence: high
+  note: null
+- tool: AI-Aging-Simulation
+  category: task
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/aging
+  spec: openapi/perfect-corp-ai_aging_simulation-openapi.yml
+  binding: one-to-one
+  confidence: high
+  note: null
+- tool: AI-Avatar-Generator
+  category: task
+  servers:
+  - creators
+  rest:
+  - POST /s2s/v2.0/task/ai-avatar
+  spec: openapi/perfect-corp-ai_avatar_generator-openapi.yml
+  binding: one-to-one
+  confidence: high
+  note: null
+- tool: AI-Avatar-Generator-Templates
+  category: templates
+  servers:
+  - creators
+  rest:
+  - GET /s2s/v2.0/task/template/ai-avatar
+  spec: openapi/perfect-corp-ai_avatar_generator-openapi.yml
+  binding: one-to-one
+  confidence: medium
+  note: null
+- tool: AI-Bag-Virtual-Try-On
+  category: task
+  servers:
+  - fashion
+  rest:
+  - POST /s2s/v2.0/task/bag
+  spec: openapi/perfect-corp-ai_bag-openapi.yml
+  binding: one-to-one
+  confidence: medium
+  note: null
+- tool: AI-Bangs-Filter-Virtual-Try-On
+  category: task
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/hair-bang
+  spec: openapi/perfect-corp-ai_bangs-openapi.yml
+  binding: one-to-one
+  confidence: medium
+  note: null
+- tool: AI-Bangs-Filter-Virtual-Try-On-Templates
+  category: templates
+  servers:
+  - beauty
+  rest:
+  - GET /s2s/v2.0/task/template/hair-bang
+  spec: openapi/perfect-corp-ai_bangs-openapi.yml
+  binding: one-to-one
+  confidence: medium
+  note: null
+- tool: AI-Beard-Style-Generator
+  category: task
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/beard-style
+  spec: openapi/perfect-corp-ai_beard_style-openapi.yml
+  binding: one-to-one
+  confidence: medium
+  note: null
+- tool: AI-Beard-Style-Generator-Templates
+  category: templates
+  servers:
+  - beauty
+  rest:
+  - GET /s2s/v2.0/task/template/beard-style
+  spec: openapi/perfect-corp-ai_beard_style-openapi.yml
+  binding: one-to-one
+  confidence: medium
+  note: null
+- tool: AI-Body-Reshape
+  category: task
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/body-reshape/pre-process
+  - POST /s2s/v2.0/task/body-reshape
+  spec: openapi/perfect-corp-ai_body_reshape-openapi.yml
+  binding: one-to-many
+  confidence: high
+  note: Tool covers the task-create operation and its versioned siblings.
+- tool: AI-Body-Reshape-Detection
+  category: detection
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/body-reshape/pre-process
+  - GET /s2s/v2.0/task/body-reshape/pre-process/{task_id}
+  - POST /s2s/v2.0/task/body-reshape
+  - GET /s2s/v2.0/task/body-reshape/{task_id}
+  spec: openapi/perfect-corp-ai_body_reshape-openapi.yml
+  binding: one-to-many
+  confidence: medium
+  note: Tool covers the task-create operation and its versioned siblings.
+- tool: AI-Bracelet-Virtual-Try-On
+  category: task
+  servers:
+  - fashion
+  rest:
+  - POST /s2s/v2.0/task/2d-vto/bracelet
+  spec: openapi/perfect-corp-ai_bracelet-openapi.yml
+  binding: one-to-one
+  confidence: medium
+  note: null
+- tool: AI-Breast-Augmentation-Simulator
+  category: task
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/breast-shape
+  spec: openapi/perfect-corp-ai_breast_augmentation-openapi.yml
+  binding: one-to-one
+  confidence: medium
+  note: null
+- tool: AI-Clothes-Virtual-Try-On
+  category: task
+  servers:
+  - fashion
+  rest:
+  - POST /s2s/v2.0/task/cloth
+  - POST /s2s/v2.0/task/cloth-v3
+  - POST /s2s/v2.0/task/cloth-v4
+  spec: openapi/perfect-corp-ai_clothes-openapi.yml
+  binding: one-to-many
+  confidence: medium
+  note: Tool covers the task-create operation and its versioned siblings.
+- tool: AI-Color-Correction
+  category: task
+  servers:
+  - creators
+  rest:
+  - POST /s2s/v2.0/task/colorize/color-correct
+  spec: openapi/perfect-corp-ai_color_correction-openapi.yml
+  binding: one-to-one
+  confidence: high
+  note: null
+- tool: AI-Earrings-Virtual-Try-On
+  category: task
+  servers:
+  - fashion
+  rest:
+  - POST /s2s/v2.0/task/2d-vto/earring
+  spec: openapi/perfect-corp-ai_earrings-openapi.yml
+  binding: one-to-one
+  confidence: medium
+  note: null
+- tool: AI-Eye-Color-Lens-Virtual-Try-On
+  category: task
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/eye-color-vto
+  spec: openapi/perfect-corp-ai_eye_color_lens-openapi.yml
+  binding: one-to-one
+  confidence: medium
+  note: null
+- tool: AI-Fabric-Virtual-Try-On
+  category: task
+  servers:
+  - fashion
+  rest:
+  - POST /s2s/v2.0/task/fabric
+  spec: openapi/perfect-corp-ai_fabric-openapi.yml
+  binding: one-to-one
+  confidence: medium
+  note: null
+- tool: AI-Fabric-Virtual-Try-On-Templates
+  category: templates
+  servers:
+  - fashion
+  rest:
+  - GET /s2s/v2.0/task/template/fabric
+  spec: openapi/perfect-corp-ai_fabric-openapi.yml
+  binding: one-to-one
+  confidence: medium
+  note: null
+- tool: AI-Face-Attributes-and-Ratio-Analyzer
+  category: task
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/face-attr-analysis
+  spec: openapi/perfect-corp-ai_face_analyzer-openapi.yml
+  binding: one-to-one
+  confidence: high
+  note: null
+- tool: AI-Face-Lift
+  category: task
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/face-lift/pre-process
+  - POST /s2s/v2.0/task/face-lift
+  spec: openapi/perfect-corp-ai_face_lift-openapi.yml
+  binding: one-to-many
+  confidence: high
+  note: Tool covers the task-create operation and its versioned siblings.
+- tool: AI-Face-Lift-Detection
+  category: detection
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/face-lift/pre-process
+  - GET /s2s/v2.0/task/face-lift/pre-process/{task_id}
+  - POST /s2s/v2.0/task/face-lift
+  - GET /s2s/v2.0/task/face-lift/{task_id}
+  spec: openapi/perfect-corp-ai_face_lift-openapi.yml
+  binding: one-to-many
+  confidence: medium
+  note: Tool covers the task-create operation and its versioned siblings.
+- tool: AI-Face-Reshape
+  category: task
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/face-reshape/pre-process
+  - POST /s2s/v2.0/task/face-reshape
+  spec: openapi/perfect-corp-ai_face_reshape-openapi.yml
+  binding: one-to-many
+  confidence: high
+  note: Tool covers the task-create operation and its versioned siblings.
+- tool: AI-Face-Reshape-Detection
+  category: detection
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/face-reshape/pre-process
+  - GET /s2s/v2.0/task/face-reshape/pre-process/{task_id}
+  - POST /s2s/v2.0/task/face-reshape
+  - GET /s2s/v2.0/task/face-reshape/{task_id}
+  spec: openapi/perfect-corp-ai_face_reshape-openapi.yml
+  binding: one-to-many
+  confidence: medium
+  note: Tool covers the task-create operation and its versioned siblings.
+- tool: AI-Face-Swap
+  category: task
+  servers:
+  - creators
+  rest:
+  - POST /s2s/v2.0/task/face-swap/pre-process
+  - POST /s2s/v2.0/task/face-swap
+  spec: openapi/perfect-corp-ai_face_swap-openapi.yml
+  binding: one-to-many
+  confidence: high
+  note: Tool covers the task-create operation and its versioned siblings.
+- tool: AI-Face-Swap-Face-Detection
+  category: detection
+  servers:
+  - creators
+  rest:
+  - POST /s2s/v2.0/task/face-swap/pre-process
+  - GET /s2s/v2.0/task/face-swap/pre-process/{task_id}
+  - POST /s2s/v2.0/task/face-swap
+  - GET /s2s/v2.0/task/face-swap/{task_id}
+  spec: openapi/perfect-corp-ai_face_swap-openapi.yml
+  binding: one-to-many
+  confidence: medium
+  note: Tool covers the task-create operation and its versioned siblings.
+- tool: AI-Facial-Color-Tones-Analyzer
+  category: task
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/skin-tone-analysis
+  spec: openapi/perfect-corp-ai_skin_tone_analysis-openapi.yml
+  binding: one-to-one
+  confidence: high
+  note: null
+- tool: AI-Fitzpatrick-Skin-Type-Analysis
+  category: task
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/fitzpatrick-scale-analyzer/pre-process
+  - POST /s2s/v2.0/task/fitzpatrick-scale-analyzer
+  spec: openapi/perfect-corp-ai_fitzpatrick_skin_type-openapi.yml
+  binding: one-to-many
+  confidence: medium
+  note: Tool covers the task-create operation and its versioned siblings.
+- tool: AI-Fitzpatrick-Skin-Type-Analysis-Detection
+  category: detection
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/fitzpatrick-scale-analyzer/pre-process
+  - GET /s2s/v2.0/task/fitzpatrick-scale-analyzer/pre-process/{task_id}
+  - POST /s2s/v2.0/task/fitzpatrick-scale-analyzer
+  - GET /s2s/v2.0/task/fitzpatrick-scale-analyzer/{task_id}
+  spec: openapi/perfect-corp-ai_fitzpatrick_skin_type-openapi.yml
+  binding: one-to-many
+  confidence: medium
+  note: Tool covers the task-create operation and its versioned siblings.
+- tool: AI-Hair-Color-Virtual-Try-On
+  category: task
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/hair-color
+  spec: openapi/perfect-corp-ai_hair_color-openapi.yml
+  binding: one-to-one
+  confidence: medium
+  note: null
+- tool: AI-Hair-Density-Detection
+  category: detection
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/hair-density-detection
+  - GET /s2s/v2.0/task/hair-density-detection/{task_id}
+  spec: openapi/perfect-corp-ai_hair_density_detection-openapi.yml
+  binding: one-to-many
+  confidence: high
+  note: Tool covers the task-create operation and its versioned siblings.
+- tool: AI-Hair-Extension-Virtual-Try-On
+  category: task
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/hair-ext
+  spec: openapi/perfect-corp-ai_hair_extension-openapi.yml
+  binding: one-to-one
+  confidence: medium
+  note: null
+- tool: AI-Hair-Extension-Virtual-Try-On-Templates
+  category: templates
+  servers:
+  - beauty
+  rest:
+  - GET /s2s/v2.0/task/template/hair-ext
+  spec: openapi/perfect-corp-ai_hair_extension-openapi.yml
+  binding: one-to-one
+  confidence: medium
+  note: null
+- tool: AI-Hair-Frizziness-Detection
+  category: detection
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/hair-frizziness-detection
+  - GET /s2s/v2.0/task/hair-frizziness-detection/{task_id}
+  spec: openapi/perfect-corp-ai_hair_frizziness_detection-openapi.yml
+  binding: one-to-many
+  confidence: high
+  note: Tool covers the task-create operation and its versioned siblings.
+- tool: AI-Hair-Length-Detection
+  category: detection
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/hair-length-detection
+  - GET /s2s/v2.0/task/hair-length-detection/{task_id}
+  spec: openapi/perfect-corp-ai_hair_length_detection-openapi.yml
+  binding: one-to-many
+  confidence: high
+  note: Tool covers the task-create operation and its versioned siblings.
+- tool: AI-Hair-Style-Virtual-Try-On
+  category: task
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/hair-style
+  - POST /s2s/v2.0/task/hair-transfer
+  - POST /s2s/v2.1/task/hair-transfer
+  spec: openapi/perfect-corp-ai_hairstyle-openapi.yml
+  binding: one-to-many
+  confidence: medium
+  note: Tool covers the task-create operation and its versioned siblings.
+- tool: AI-Hair-Style-Virtual-Try-On-Templates
+  category: templates
+  servers:
+  - beauty
+  rest:
+  - GET /s2s/v2.0/task/template/hair-style
+  - GET /s2s/v2.1/task/template/hair-transfer
+  spec: openapi/perfect-corp-ai_hairstyle-openapi.yml
+  binding: one-to-many
+  confidence: medium
+  note: Tool covers the task-create operation and its versioned siblings.
+- tool: AI-Hair-Type-Detection
+  category: detection
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/hair-type-detection
+  - GET /s2s/v2.0/task/hair-type-detection/{task_id}
+  spec: openapi/perfect-corp-ai_hair_type_detection-openapi.yml
+  binding: one-to-many
+  confidence: high
+  note: Tool covers the task-create operation and its versioned siblings.
+- tool: AI-Hair-Volume-Virtual-Try-On
+  category: task
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/hair-vol
+  spec: openapi/perfect-corp-ai_hair_volume-openapi.yml
+  binding: one-to-one
+  confidence: medium
+  note: null
+- tool: AI-Hair-Volume-Virtual-Try-On-Templates
+  category: templates
+  servers:
+  - beauty
+  rest:
+  - GET /s2s/v2.0/task/template/hair-vol
+  spec: openapi/perfect-corp-ai_hair_volume-openapi.yml
+  binding: one-to-one
+  confidence: medium
+  note: null
+- tool: AI-Hat-Virtual-Try-On
+  category: task
+  servers:
+  - fashion
+  rest:
+  - POST /s2s/v2.0/task/hat
+  spec: openapi/perfect-corp-ai_hat-openapi.yml
+  binding: one-to-one
+  confidence: medium
+  note: null
+- tool: AI-Headshot-Generator
+  category: task
+  servers:
+  - creators
+  rest:
+  - POST /s2s/v2.0/task/headshot
+  spec: openapi/perfect-corp-ai_headshot_generator-openapi.yml
+  binding: one-to-one
+  confidence: high
+  note: null
+- tool: AI-Headshot-Generator-Templates
+  category: templates
+  servers:
+  - creators
+  rest:
+  - GET /s2s/v2.0/task/template/headshot
+  spec: openapi/perfect-corp-ai_headshot_generator-openapi.yml
+  binding: one-to-one
+  confidence: medium
+  note: null
+- tool: AI-Image-Extender
+  category: task
+  servers:
+  - creators
+  rest:
+  - POST /s2s/v2.0/task/out-paint
+  spec: openapi/perfect-corp-ai_image_extender-openapi.yml
+  binding: one-to-one
+  confidence: high
+  note: null
+- tool: AI-Image-Generator-Image-to-Image
+  category: task
+  servers:
+  - creators
+  rest:
+  - POST /s2s/v2.0/task/text-to-image
+  - POST /s2s/v2.0/task/text-to-image/youcam
+  - POST /s2s/v2.0/task/image-to-image/youcam
+  spec: openapi/perfect-corp-ai_image_generator-openapi.yml
+  binding: one-to-many
+  confidence: medium
+  note: Tool covers the task-create operation and its versioned siblings.
+- tool: AI-Image-Generator-Text-to-Image
+  category: task
+  servers:
+  - creators
+  rest:
+  - POST /s2s/v2.0/task/text-to-image
+  - POST /s2s/v2.0/task/text-to-image/youcam
+  - POST /s2s/v2.0/task/image-to-image/youcam
+  spec: openapi/perfect-corp-ai_image_generator-openapi.yml
+  binding: one-to-many
+  confidence: medium
+  note: Tool covers the task-create operation and its versioned siblings.
+- tool: AI-Look-Virtual-Try-On
+  category: task
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/look-vto
+  spec: openapi/perfect-corp-ai_look_vto-openapi.yml
+  binding: one-to-one
+  confidence: high
+  note: null
+- tool: AI-Look-Virtual-Try-On-Templates
+  category: templates
+  servers:
+  - beauty
+  rest:
+  - GET /s2s/v2.0/task/template/look-vto
+  spec: openapi/perfect-corp-ai_look_vto-openapi.yml
+  binding: one-to-one
+  confidence: high
+  note: null
+- tool: AI-Makeup-Transfer
+  category: task
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/mu-transfer
+  spec: openapi/perfect-corp-ai_makeup_transfer-openapi.yml
+  binding: one-to-one
+  confidence: high
+  note: null
+- tool: AI-Makeup-Virtual-Try-On
+  category: task
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/makeup-vto
+  spec: openapi/perfect-corp-makeup_vto-openapi.yml
+  binding: one-to-one
+  confidence: high
+  note: null
+- tool: AI-Makeup-Virtual-Try-On-Pattern-Name
+  category: templates
+  servers:
+  - fashion
+  rest:
+  - POST /s2s/v2.0/task/makeup-vto
+  - GET /s2s/v2.0/task/makeup-vto/{task_id}
+  spec: openapi/perfect-corp-makeup_vto-openapi.yml
+  binding: one-to-many
+  confidence: high
+  note: Tool covers the task-create operation and its versioned siblings.
+- tool: AI-Nail-Transfer
+  category: task
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/ai-nail
+  spec: openapi/perfect-corp-ai_nail_transfer-openapi.yml
+  binding: one-to-one
+  confidence: high
+  note: null
+- tool: AI-Nail-Virtual-Try-On
+  category: task
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/nail-vto
+  spec: openapi/perfect-corp-ai_nail_vto-openapi.yml
+  binding: one-to-one
+  confidence: high
+  note: null
+- tool: AI-Necklace-Virtual-Try-On
+  category: task
+  servers:
+  - fashion
+  rest:
+  - POST /s2s/v2.0/task/2d-vto/necklace
+  spec: openapi/perfect-corp-ai_necklace-openapi.yml
+  binding: one-to-one
+  confidence: medium
+  note: null
+- tool: AI-Object-Removal-Pro
+  category: task
+  servers:
+  - creators
+  rest:
+  - POST /s2s/v2.0/task/generative-fill
+  spec: openapi/perfect-corp-ai_object_removal_pro-openapi.yml
+  binding: one-to-one
+  confidence: high
+  note: null
+- tool: AI-Photo-Background-Blur
+  category: task
+  servers:
+  - creators
+  rest:
+  - POST /s2s/v2.0/task/bg-blur
+  spec: openapi/perfect-corp-ai_photo_background_blur-openapi.yml
+  binding: one-to-one
+  confidence: high
+  note: null
+- tool: AI-Photo-Background-Change
+  category: task
+  servers:
+  - creators
+  rest:
+  - POST /s2s/v2.0/task/bg-replace
+  spec: openapi/perfect-corp-ai_photo_background_change-openapi.yml
+  binding: one-to-one
+  confidence: high
+  note: null
+- tool: AI-Photo-Background-Change-Templates
+  category: templates
+  servers:
+  - creators
+  rest:
+  - GET /s2s/v2.0/task/template/bg-replace
+  spec: openapi/perfect-corp-ai_photo_background_change-openapi.yml
+  binding: one-to-one
+  confidence: medium
+  note: null
+- tool: AI-Photo-Background-Removal
+  category: task
+  servers:
+  - creators
+  rest:
+  - POST /s2s/v2.0/task/sod
+  spec: openapi/perfect-corp-ai_background_removal-openapi.yml
+  binding: one-to-one
+  confidence: high
+  note: null
+- tool: AI-Photo-Colorize
+  category: task
+  servers:
+  - creators
+  rest:
+  - POST /s2s/v2.0/task/colorize
+  spec: openapi/perfect-corp-ai_photo_colorize-openapi.yml
+  binding: one-to-one
+  confidence: high
+  note: null
+- tool: AI-Photo-Enhance
+  category: task
+  servers:
+  - creators
+  rest:
+  - POST /s2s/v2.0/task/enhance
+  spec: openapi/perfect-corp-ai_photo_enhance-openapi.yml
+  binding: one-to-one
+  confidence: high
+  note: null
+- tool: AI-Photo-Lighting
+  category: task
+  servers:
+  - creators
+  rest:
+  - POST /s2s/v2.0/task/lighting
+  spec: openapi/perfect-corp-ai_photo_lighting-openapi.yml
+  binding: one-to-one
+  confidence: high
+  note: null
+- tool: AI-Replace
+  category: task
+  servers:
+  - creators
+  rest:
+  - POST /s2s/v2.0/task/obj-replace
+  spec: openapi/perfect-corp-ai_replace-openapi.yml
+  binding: one-to-one
+  confidence: high
+  note: null
+- tool: AI-Ring-Virtual-Try-On
+  category: task
+  servers:
+  - fashion
+  rest:
+  - POST /s2s/v2.0/file/2d-vto/ring
+  - POST /s2s/v2.0/task/2d-vto/ring
+  spec: openapi/perfect-corp-ring_vto-openapi.yml
+  binding: one-to-many
+  confidence: high
+  note: Tool covers the task-create operation and its versioned siblings.
+- tool: AI-Scarf-Virtual-Try-On
+  category: task
+  servers:
+  - fashion
+  rest:
+  - POST /s2s/v2.0/task/scarf
+  spec: openapi/perfect-corp-ai_scarf-openapi.yml
+  binding: one-to-one
+  confidence: medium
+  note: null
+- tool: AI-Shoes-Virtual-Try-On
+  category: task
+  servers:
+  - fashion
+  rest:
+  - POST /s2s/v2.0/task/shoes
+  spec: openapi/perfect-corp-ai_shoes-openapi.yml
+  binding: one-to-one
+  confidence: medium
+  note: null
+- tool: AI-Skin-Analysis
+  category: task
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/skin-analysis
+  - POST /s2s/v2.1/task/skin-analysis
+  spec: openapi/perfect-corp-ai_skin_analysis-openapi.yml
+  binding: one-to-many
+  confidence: high
+  note: Tool covers the task-create operation and its versioned siblings.
+- tool: AI-Skin-simulation
+  category: task
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/skin-simulation
+  spec: openapi/perfect-corp-ai_skin_simulation-openapi.yml
+  binding: one-to-one
+  confidence: high
+  note: null
+- tool: AI-Smile
+  category: task
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/ai-smile
+  spec: openapi/perfect-corp-ai_smile-openapi.yml
+  binding: one-to-one
+  confidence: high
+  note: null
+- tool: AI-Studio-Generator
+  category: task
+  servers:
+  - creators
+  rest:
+  - POST /s2s/v2.0/task/ai-studio
+  spec: openapi/perfect-corp-ai_studio_generator-openapi.yml
+  binding: one-to-one
+  confidence: high
+  note: null
+- tool: AI-Studio-Generator-Templates
+  category: templates
+  servers:
+  - creators
+  rest:
+  - GET /s2s/v2.0/task/template/ai-studio
+  spec: openapi/perfect-corp-ai_studio_generator-openapi.yml
+  binding: one-to-one
+  confidence: medium
+  note: null
+- tool: AI-Teeth-Whitening
+  category: task
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/teeth-whiten/pre-process
+  - POST /s2s/v2.0/task/teeth-whiten
+  spec: openapi/perfect-corp-ai_teeth_whitening-openapi.yml
+  binding: one-to-many
+  confidence: high
+  note: Tool covers the task-create operation and its versioned siblings.
+- tool: AI-Teeth-Whitening-Detection
+  category: detection
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/teeth-whiten/pre-process
+  - GET /s2s/v2.0/task/teeth-whiten/pre-process/{task_id}
+  - POST /s2s/v2.0/task/teeth-whiten
+  - GET /s2s/v2.0/task/teeth-whiten/{task_id}
+  spec: openapi/perfect-corp-ai_teeth_whitening-openapi.yml
+  binding: one-to-many
+  confidence: medium
+  note: Tool covers the task-create operation and its versioned siblings.
+- tool: AI-Video-Background-Replace
+  category: task
+  servers:
+  - creators
+  rest:
+  - POST /s2s/v2.0/task/bg-replace-vid
+  spec: openapi/perfect-corp-ai_video_background_replace-openapi.yml
+  binding: one-to-one
+  confidence: high
+  note: null
+- tool: AI-Video-Enhancer
+  category: task
+  servers:
+  - creators
+  rest:
+  - POST /s2s/v2.0/task/video-sr
+  spec: openapi/perfect-corp-ai_video_enhancer-openapi.yml
+  binding: one-to-one
+  confidence: high
+  note: null
+- tool: AI-Video-Face-Swap
+  category: task
+  servers:
+  - creators
+  rest:
+  - POST /s2s/v2.0/task/face-swap-vid
+  spec: openapi/perfect-corp-ai_video_face_swap-openapi.yml
+  binding: one-to-one
+  confidence: high
+  note: null
+- tool: AI-Video-Generator-Image-to-Video
+  category: task
+  servers:
+  - creators
+  rest:
+  - POST /s2s/v2.0/task/image-to-video
+  - POST /s2s/v2.0/task/image-to-video/youcam
+  - POST /s2s/v2.0/task/text-to-video/youcam
+  spec: openapi/perfect-corp-ai_video_generator-openapi.yml
+  binding: one-to-many
+  confidence: medium
+  note: Tool covers the task-create operation and its versioned siblings.
+- tool: AI-Video-Generator-Text-to-Video
+  category: task
+  servers:
+  - creators
+  rest:
+  - POST /s2s/v2.0/task/image-to-video
+  - POST /s2s/v2.0/task/image-to-video/youcam
+  - POST /s2s/v2.0/task/text-to-video/youcam
+  spec: openapi/perfect-corp-ai_video_generator-openapi.yml
+  binding: one-to-many
+  confidence: medium
+  note: Tool covers the task-create operation and its versioned siblings.
+- tool: AI-Video-Object-Removal
+  category: task
+  servers:
+  - creators
+  rest:
+  - POST /s2s/v2.0/file/obj-rem-vid
+  - POST /s2s/v2.0/task/obj-rem-vid
+  spec: openapi/perfect-corp-ai_video_object_removal-openapi.yml
+  binding: one-to-many
+  confidence: high
+  note: Tool covers the task-create operation and its versioned siblings.
+- tool: AI-Video-Style-Transfer
+  category: task
+  servers:
+  - creators
+  rest:
+  - POST /s2s/v2.0/task/video-trans
+  spec: openapi/perfect-corp-ai_video_style_transfer-openapi.yml
+  binding: one-to-one
+  confidence: high
+  note: null
+- tool: AI-Video-Style-Transfer-Templates
+  category: templates
+  servers:
+  - creators
+  rest:
+  - GET /s2s/v2.0/task/template/video-trans
+  spec: openapi/perfect-corp-ai_video_style_transfer-openapi.yml
+  binding: one-to-one
+  confidence: medium
+  note: null
+- tool: AI-Watch-Virtual-Try-On
+  category: task
+  servers:
+  - fashion
+  rest:
+  - POST /s2s/v2.0/task/2d-vto/watch
+  spec: openapi/perfect-corp-ai_watch-openapi.yml
+  binding: one-to-one
+  confidence: medium
+  note: null
+- tool: AI-Wavy-Hair-Virtual-Try-On
+  category: task
+  servers:
+  - beauty
+  rest:
+  - POST /s2s/v2.0/task/hair-curl
+  spec: openapi/perfect-corp-ai_wavy_hair-openapi.yml
+  binding: one-to-one
+  confidence: medium
+  note: null
+- tool: AI-Wavy-Hair-Virtual-Try-On-Templates
+  category: templates
+  servers:
+  - beauty
+  rest:
+  - GET /s2s/v2.0/task/template/hair-curl
+  spec: openapi/perfect-corp-ai_wavy_hair-openapi.yml
+  binding: one-to-one
+  confidence: medium
+  note: null
+- tool: Get-Feature-Cost
+  category: utility
+  servers:
+  - beauty
+  - fashion
+  - creators
+  rest:
+  - GET /s2s/v2.0/credit/feature-cost
+  spec: openapi/perfect-corp-unit_system-openapi.yml
+  binding: one-to-one
+  confidence: high
+  note: null
+- tool: upload_file
+  category: utility
+  servers:
+  - beauty
+  - fashion
+  - creators
+  rest:
+  - POST /s2s/v2.0/file
+  spec: openapi/perfect-corp-file-openapi.yml
+  binding: one-to-one
+  confidence: medium
+  note: null
+mcp_only:
+- tool: File-Upload
+  servers:
+  - beauty
+  - fashion
+  - creators
+  reason: Interactive browser drag-and-drop upload widget rendered by the MCP UI extension; no REST equivalent —
+    the REST path is POST /s2s/v2.0/file plus a client-side PUT to the returned presigned URL.
+- tool: Get-Running-Task-Status
+  servers:
+  - beauty
+  - fashion
+  - creators
+  reason: One tool fans out over the per-feature GET /s2s/v2.0/task/<feature>/{task_id} status operations; no single
+    REST operation backs it.
+- tool: Get-Upload-API-Info
+  servers:
+  - beauty
+  - fashion
+  - creators
+  reason: Returns the upload endpoint and example request/response for a given task type. A documentation/helper
+    tool over the File API; no REST operation returns this.
+rest_only:
+- spec: openapi/perfect-corp-task_management-openapi.yml
+  rest:
+  - POST /s2s/v2.0/task/delete
+  reason: Task deletion (POST /s2s/v2.0/task/delete) is published in the REST contract but exposed by no MCP tool
+    on any of the three servers — an agent using MCP alone cannot delete a task or its stored files.

@@ -1,0 +1,46 @@
+generated: '2026-09-02'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: docs.perfectcorp.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Nov 26 12:46:01 2026 GMT
+  hsts: false
+  note: No Strict-Transport-Security header on the documentation host.
+- host: yce-api-01.makeupar.com
+  https: true
+  tls_version: TLSv1.2
+  cert_expires: Jan  6 23:59:59 2027 GMT
+  hsts: true
+  hsts_header: max-age=31536000; includeSubdomains;
+  note: The automated probe read null because the API host answers its root with a JSON 404; the HSTS header IS
+    returned on an authenticated-route response (observed on a 401 from GET /s2s/v2.0/credit/feature-cost, 2026-09-02).
+domains:
+- domain: perfectcorp.com
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: reject
+- domain: makeupar.com
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: reject
+observed_response_headers:
+  host: yce-api-01.makeupar.com
+  sample: GET /s2s/v2.0/credit/feature-cost with an invalid bearer token -> HTTP 401
+  headers:
+  - 'server: nginx'
+  - 'x-request-id: <snowflake id>'
+  - 'x-frame-options: sameorigin'
+  - 'strict-transport-security: max-age=31536000; includeSubdomains;'
+  - 'vary: Origin'
+  absent:
+  - RateLimit-*
+  - X-RateLimit-*
+  - Retry-After
+  - Content-Security-Policy
+  - X-Content-Type-Options

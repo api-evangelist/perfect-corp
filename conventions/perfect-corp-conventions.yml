@@ -1,0 +1,163 @@
+generated: '2026-09-02'
+method: searched
+source: >-
+  https://docs.perfectcorp.com/develop/quick_start_guide, /develop/api_server, /develop/rate_limit,
+  /develop/file_retention_period, /develop/debugging_guide, /develop/webhook, and the 65 published
+  OpenAPI 3.0.0 documents in openapi/.
+name: Perfect Corp YouCam API — cross-cutting conventions
+description: >-
+  Runtime semantics of the YouCam AI REST API. The whole surface is one asynchronous, task-based
+  pattern: upload a file, create a task, poll or receive a webhook, fetch a time-limited result URL.
+  Everything below is read from Perfect Corp's own documentation or its published contracts.
+
+base_url: https://yce-api-01.makeupar.com
+
+authentication:
+  style: http-bearer
+  header: 'Authorization: Bearer <API key>'
+  detail: authentication/perfect-corp-authentication.yml
+  note: >-
+    V2 (all current features) uses the API key directly as the bearer token. A legacy V1 server-to-server
+    flow exchanges client credentials at /s2s/v1.0/client/auth for a short-lived access_token; the
+    contracts still carry its `BearerAuthentication` scheme alongside `BearerAuthenticationV2`.
+
+async_model:
+  pattern: create-task-then-poll
+  steps:
+    - POST /s2s/v2.0/file to obtain an upload URL plus a file_id, then PUT the bytes to that URL yourself
+    - POST /s2s/v2.x/task/<feature> with the file_id (or a public src_file_url) to create a task
+    - GET /s2s/v2.x/task/<feature>/{task_id} until task_status is success or error
+    - read the result download URL from the success payload
+  polling_interval_field: polling_interval
+  terminal_states: [success, error]
+  gotcha: >-
+    Calling the File API does NOT upload the file — it returns a destination URL the client must
+    upload to. Skipping that step is documented as the cause of a 404 from the AI operations.
+
+pagination:
+  style: cursor
+  applies_to: template listing operations (GET /s2s/v2.x/task/template/<feature>)
+  request_params:
+    - {name: page_size, in: query, type: integer, minimum: 1, maximum: 20, default: 20}
+    - {name: starting_token, in: query, type: string, note: 'null for the first page'}
+  response_fields:
+    - {name: next_token, note: 'pass as starting_token to fetch the next page'}
+  source: components.parameters TemplatePageSize / TemplateStartingToken in openapi/_original/perfect-corp-openapi-base.json
+
+idempotency:
+  supported: false
+  request_header: null
+  detail: >-
+    No Idempotency-Key header, no idempotency scope and no retention window is documented anywhere in
+    the API reference or the developer guide, and none of the 178 published operations declares one.
+    Task creation is a billed, non-idempotent POST: a retried create charges units again and produces
+    a second task_id. The one idempotency signal in the product is on the INBOUND side — webhook
+    deliveries carry a `webhook-id` that is stable across retries and is documented as the value to
+    deduplicate on.
+  inbound_webhook_idempotency:
+    header: webhook-id
+    stable_across_retries: true
+    source: https://docs.perfectcorp.com/develop/webhook
+  agent_impact: >-
+    An agent retrying a timed-out task creation cannot make the retry safe. The only mitigation the
+    API offers is to poll the original task_id, which remains valid for 30 days.
+
+reversibility:
+  grade: verified
+  summary: >-
+    One published reversal operation covers the whole write surface, and the retention window it acts
+    inside is stated explicitly. There is no cancel: a task that has been created runs to completion.
+  operations:
+    - action: create an AI task (POST /s2s/v2.x/task/<feature>)
+      reversal: POST /s2s/v2.0/task/delete
+      operationId: null
+      operationId_note: The published contracts declare no operationId; address the operation by method + path.
+      what_it_reverses: >-
+        Deletes a FINISHED task identified by task_id, including all associated input files and
+        generated outputs.
+      window: >-
+        30 days. Uploaded files and their file_id values, and the task_id itself, are retained for 30
+        days; after 30 days all uploaded and generated images and videos are removed automatically,
+        so the delete window closes when the retention window does.
+      window_source: https://docs.perfectcorp.com/develop/file_retention_period
+      spec: openapi/perfect-corp-task_management-openapi.yml
+      note: >-
+        Deletion reverses STORAGE, not spend — units consumed by the task are not returned, and no
+        refund or credit-reversal operation is published.
+    - action: cancel an in-flight task
+      reversal: none
+      window: null
+      note: >-
+        No cancel, abort or stop operation exists on any of the 65 contracts. Once a task is created
+        it runs to completion or fails; the only exit is to wait for a terminal state.
+  agent_note: >-
+    An agent can safely undo the storage side of anything it created, within 30 days, using one
+    operation — but it cannot undo the charge and cannot stop a task it has started. Task deletion is
+    exposed by NO MCP tool on any of the three servers, so an agent working through MCP alone has no
+    reversal path at all (see mcp/perfect-corp-tool-crosswalk.yml rest_only).
+
+dry_run_mode:
+  supported: false
+  note: >-
+    No dry-run, preview or validate-only parameter is published. The nearest surface is
+    GET /s2s/v2.0/credit/feature-cost, which returns what a feature WILL cost before it is invoked,
+    and the hosted API Playground, which runs real billed tasks.
+
+versioning:
+  style: path
+  path_versions: [v1.0, v2.0, v2.1]
+  product_version: v1.15
+  note: >-
+    Version lives in the path segment (/s2s/v2.0/…). Features migrate independently — AI Skin
+    Analysis publishes v2.0 and v2.1 side by side in one document, tagged V2.0 and V2.1. The product
+    release train (v1.15) is separate from the path version and is what the release notes track.
+  detail: lifecycle/perfect-corp-lifecycle.yml
+
+error_envelope:
+  media_type: application/json
+  shape: '{status, error, error_code?}'
+  rfc9457: false
+  detail: errors/perfect-corp-problem-types.yml
+  gotcha: >-
+    Engine-level failures arrive with HTTP 200 and task_status "error"; the failure code is in the
+    body, not the status line.
+
+request_tracing:
+  header: x-request-id
+  direction: response
+  observed: true
+  note: >-
+    Every response from yce-api-01.makeupar.com carries an x-request-id (a snowflake-style integer,
+    e.g. 498291496663921076). It is not documented in the developer guide, but it is the value to
+    quote to support. Note the related documented pitfall: IDs of this magnitude exceed JavaScript's
+    safe integer range and are silently rounded by JSON.parse — Perfect Corp recommends json-bigint.
+
+rate_limit_signaling:
+  headers: []
+  status: 429
+  detail: rate-limits/perfect-corp-rate-limits.yml
+  note: No rate-limit headers are documented or returned; 429 is the only signal.
+
+field_expansion:
+  supported: false
+sparse_fieldsets:
+  supported: false
+metadata_fields:
+  supported: false
+  note: No user-supplied metadata field is published on task creation, so an agent cannot tag a task with its own correlation id.
+
+output_format_selection:
+  parameter: format
+  values: [json, zip]
+  note: >-
+    Several analysis features (e.g. AI Skin Analysis) let the caller choose between a JSON result body
+    and a packaged ZIP of result assets.
+
+result_urls:
+  validity: 2 hours
+  renewal: Re-query the task_id to obtain a fresh download URL.
+  source: https://docs.perfectcorp.com/develop/file_retention_period
+
+webhooks:
+  supported: true
+  detail: asyncapi/perfect-corp-webhooks.yml

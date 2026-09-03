@@ -1,0 +1,58 @@
+generated: '2026-09-02'
+method: probed
+source: https://yce-api-01.makeupar.com/.well-known/oauth-authorization-server
+name: Perfect Corp YouCam API — OAuth 2.0 scopes
+description: >-
+  The 65 published OpenAPI documents declare only HTTP bearer security, so nothing OAuth-shaped is
+  derivable from the contracts. The OAuth surface is discoverable instead at the RFC 8414
+  Authorization Server Metadata document the API host serves anonymously, which names two scopes.
+  Perfect Corp's prose documentation describes only the API-key bearer flow and does not document
+  these scopes anywhere, so this artifact is the only public record of them.
+docs: null
+docs_note: >-
+  No scopes / permissions reference page exists in the developer documentation. The scope names below
+  come from the machine-readable metadata document, not from prose.
+
+authorization_server:
+  issuer: https://yce-api-01.perfectcorp.com
+  metadata_url: https://yce-api-01.makeupar.com/.well-known/oauth-authorization-server
+  metadata_file: well-known/perfect-corp-oauth-authorization-server.json
+  authorization_endpoint: https://yce-api-01.perfectcorp.com/oauth2/authorize
+  token_endpoint: https://yce-api-01.perfectcorp.com/oauth2/token
+  registration_endpoint: https://yce-api-01.perfectcorp.com/oauth2/register
+  grant_types_supported: [authorization_code, refresh_token]
+  response_types_supported: [code]
+  code_challenge_methods_supported: [S256]
+  token_endpoint_auth_methods_supported: [none]
+  client_id_metadata_document_supported: true
+  note: >-
+    A public-client profile — PKCE S256 mandatory, no client secret at the token endpoint, dynamic
+    client registration (RFC 7591) open, and RFC 9728-style client-id metadata documents supported.
+    That combination is the shape an MCP/agent client needs; the hosted MCP servers nonetheless
+    authenticate with a static API key today and serve no /.well-known/oauth-protected-resource.
+
+scope_count: 2
+scopes:
+  - name: task.run
+    description: >-
+      Create and execute AI tasks. Inferred usage: the write half of the API — POST /s2s/v2.x/task/*
+      and POST /s2s/v2.0/file. Perfect Corp publishes no scope description; the name is verbatim from
+      scopes_supported.
+    grants: write
+  - name: task.read
+    description: >-
+      Read task status and results. Inferred usage: GET /s2s/v2.x/task/*/{task_id} and the unit /
+      feature-cost reads. Perfect Corp publishes no scope description; the name is verbatim from
+      scopes_supported.
+    grants: read
+
+x-evidence:
+  - url: https://yce-api-01.makeupar.com/.well-known/oauth-authorization-server
+    http_status: 200
+    content_type: application/json
+    fetched: '2026-09-02'
+  - url: https://yce-api-01.perfectcorp.com/.well-known/oauth-authorization-server
+    http_status: 200
+    note: The issuer host serves the identical document.
+  - url: https://mcp-api-01.makeupar.com/.well-known/oauth-authorization-server
+    http_status: 404

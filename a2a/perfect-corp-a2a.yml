@@ -1,0 +1,70 @@
+generated: '2026-09-02'
+method: probed
+source: https://docs.perfectcorp.com/.well-known/agent-card.json
+name: Perfect Corp — A2A Agent Card
+description: >-
+  An A2A Agent Card served by Perfect Corp from its own documentation host. It describes the YouCam
+  API documentation agent and, notably, carries an MCP extension rather than an A2A skill set: its
+  `capabilities.extensions[0]` points at https://docs.perfectcorp.com/mcp, the documentation MCP
+  server, which was independently confirmed to answer `tools/list` with six documentation tools.
+
+card: a2a/perfect-corp-agent-card.json
+
+discovery:
+  path: /.well-known/agent-card.json
+  canonical: true
+  host: docs.perfectcorp.com
+
+agent:
+  name: YouCam API Documentation | Perfect Corp.
+  url: https://docs.perfectcorp.com/a2a
+  documentationUrl: https://docs.perfectcorp.com/
+  version: 0.0.1
+  protocolVersion: 0.3.0
+  preferredTransport: HTTP+JSON
+
+grade: conformant
+grade_basis: >-
+  Graded against A2A 1.0.0. Hard checks all pass — `capabilities` is an object, `protocolVersion` is
+  present (0.3.0), and `skills` is an array. The optional fields that usually decide near-conformant
+  are all present too: preferredTransport, defaultInputModes and defaultOutputModes.
+deviations:
+  - field: skills
+    observed: '[]'
+    impact: >-
+      The array is present and therefore conformant, but it is EMPTY, so the card advertises no
+      callable skill. An A2A client reading this card learns the agent exists and where its
+      documentation and MCP endpoint are, and nothing it can invoke over A2A.
+  - field: protocolVersion
+    observed: 0.3.0
+    impact: >-
+      Declares the 0.3.x protocol line rather than 1.0.0. Not a conformance failure — the card is
+      served at the canonical 0.3+ path — but it dates the implementation.
+  - field: capabilities.extensions[0]
+    observed: 'https://modelcontextprotocol.io -> params.url https://docs.perfectcorp.com/mcp'
+    impact: >-
+      The real capability behind this card is MCP, not A2A. The card functions as a pointer to the
+      documentation MCP server; the three PRODUCT MCP servers on mcp-api-01.makeupar.com are not
+      referenced from it.
+
+other_hosts_probed:
+  - host: www.perfectcorp.com
+    result: >-
+      Returns HTTP 200 with the 61,129-byte marketing SPA shell for EVERY /.well-known/* path,
+      including agent-card.json and agent.json. Rejected as the SPA catch-all false positive — the
+      body is HTML, not an AgentCard.
+  - host: yce.perfectcorp.com
+    result: 404 on both /.well-known/agent-card.json and /.well-known/agent.json
+  - host: yce-api-01.makeupar.com
+    result: 404 on both paths (JSON 404 body)
+  - host: mcp-api-01.makeupar.com
+    result: 404 on both paths
+  - host: yce.makeupar.com
+    result: 404 on both paths
+
+x-evidence:
+  fetched: '2026-09-02'
+  url: https://docs.perfectcorp.com/.well-known/agent-card.json
+  http_status: 200
+  content_type: application/json
+  bytes: 727

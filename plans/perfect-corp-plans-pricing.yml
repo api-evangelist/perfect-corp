@@ -1,0 +1,62 @@
+generated: '2026-09-02'
+method: searched
+source: https://yce.perfectcorp.com/ai-api/api-pricing
+name: Perfect Corp YouCam API — plans and pricing
+description: >-
+  Perfect Corp publishes a public API pricing page and a documented prepaid-unit billing model, but
+  the tier table itself renders client-side and is not present in the served HTML, so no tier can be
+  transcribed without fabricating it. The machine-readable half of the model — the per-feature unit
+  cost catalog — exists as a real API operation but requires a key.
+plan_count: 0
+plan_count_note: >-
+  Zero plans are recorded because zero are readable, NOT because Perfect Corp publishes none. The page
+  at /ai-api/api-pricing returns HTTP 200 with the title "API Pricing Plan for Developer"; its React
+  Server Component payload contains navigation and metadata only, and the plan cards are fetched by
+  the browser after hydration. Recording an invented tier would be worse than recording this gap.
+
+pricing_url: https://yce.perfectcorp.com/ai-api/api-pricing
+billing_model: prepaid units (documented code name "Credit")
+billing_model_detail: >-
+  "Units is the currency used for YouCam API operations; different AI features deduct different
+  amounts of units." Accounts hold a unit balance topped up either by subscription or by
+  pay-as-you-go purchase; both are managed in the API console, which also shows the usage record.
+  Insufficient balance surfaces as the request error_code CreditInsufficiency.
+free_tier:
+  exists: true
+  detail: >-
+    Registration for a YouCam API account is free ("register a YouCam API account for free"), and the
+    product page markets a free trial. The size of the free unit grant is not stated on any
+    server-rendered page.
+  signup: https://yce.perfectcorp.com/ai-api
+
+machine_readable_catalog:
+  operation: GET /s2s/v2.0/credit/feature-cost
+  spec: openapi/perfect-corp-unit_system-openapi.yml
+  description: >-
+    "Check the unit consumption for each API. The values are consistent with those listed at
+    https://yce.perfectcorp.com/ai-api/api-pricing." This is the authoritative per-feature price list
+    and it is a real API operation — an unusually good piece of pricing transparency.
+  anonymous: false
+  probe:
+    url: https://yce-api-01.makeupar.com/s2s/v2.0/credit/feature-cost
+    http_status: 401
+    body: '{"status":401,"error":"This API key is not recognized.","error_code":"InvalidApiKey"}'
+  agent_surface:
+    mcp_tool: Get-Feature-Cost
+    servers: [beauty, fashion, creators]
+    note: The same catalog is exposed as an MCP tool on all three hosted servers.
+
+balance_operations:
+  - {operation: 'GET /s2s/v1.0/client/credit', description: Available API units to two decimal places}
+  - {operation: 'GET /s2s/v1.0/client/credit/history', description: Unit usage history}
+
+enterprise_contact: https://yce.perfectcorp.com/ai-api/contact-us
+
+x-evidence:
+  - url: https://yce.perfectcorp.com/ai-api/api-pricing
+    http_status: 200
+    note: 200 with the pricing page shell; tier cards are client-rendered and absent from the response body.
+  - url: https://yce-api-01.makeupar.com/s2s/v2.0/credit/feature-cost
+    http_status: 401
+  - url: https://docs.perfectcorp.com/reference/unit_system.md
+    http_status: 200

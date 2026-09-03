@@ -1,0 +1,156 @@
+generated: '2026-09-02'
+method: probed
+source: Direct HTTPS probes of the named /.well-known/ paths on every Perfect Corp host in apis.yml and in openapi servers[].
+name: Perfect Corp — /.well-known/ probe
+description: >-
+  Named-path probe of every host this provider operates. Two real documents were found — an RFC 8414
+  OAuth 2.0 Authorization Server Metadata document on the API host, and an A2A Agent Card on the docs
+  host (recorded in a2a/). Everything else 404s. www.perfectcorp.com is a single-page app whose
+  catch-all answers HTTP 200 with a 61,129-byte HTML shell for EVERY /.well-known/ path; those 200s
+  are recorded below as `soft_200_spa_shell` and are NOT documents.
+
+hosts:
+  - host: yce-api-01.makeupar.com
+    role: API base host (servers[0].url of all 65 published OpenAPI documents)
+    documents:
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        file: well-known/perfect-corp-oauth-authorization-server.json
+        content_type: application/json
+        note: >-
+          RFC 8414 metadata. issuer https://yce-api-01.perfectcorp.com, PKCE S256 required,
+          authorization_code + refresh_token, RFC 7591 dynamic client registration endpoint,
+          client_id_metadata_document_supported, scopes task.run and task.read.
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+      - path: /.well-known/aauth-resource.json
+        status: 404
+  - host: docs.perfectcorp.com
+    role: Developer documentation, OpenAPI bundles, llms.txt, documentation MCP server
+    documents:
+      - path: /.well-known/agent-card.json
+        status: 200
+        file: a2a/perfect-corp-agent-card.json
+        content_type: application/json
+        note: A2A Agent Card, protocolVersion 0.3.0 — graded in a2a/perfect-corp-a2a.yml.
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+      - path: /.well-known/aauth-resource.json
+        status: 404
+  - host: mcp-api-01.makeupar.com
+    role: Hosted MCP servers (beauty / fashion / creators)
+    documents:
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+      - path: /.well-known/aauth-resource.json
+        status: 404
+  - host: yce.perfectcorp.com
+    role: Product site, API landing page, pricing, API console
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+      - path: /.well-known/aauth-resource.json
+        status: 404
+  - host: yce.makeupar.com
+    role: Product site alias used throughout the developer documentation
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+      - path: /.well-known/aauth-resource.json
+        status: 404
+  - host: www.perfectcorp.com
+    role: Corporate marketing site (single-page app)
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 200
+        note: soft_200_spa_shell — 61,129-byte HTML marketing shell, not a document.
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        note: soft_200_spa_shell — 61,129-byte HTML marketing shell, not a document.
+      - path: /.well-known/api-catalog
+        status: 200
+        note: soft_200_spa_shell — 61,129-byte HTML marketing shell, not a document.
+      - path: /.well-known/ai-plugin.json
+        status: 200
+        note: soft_200_spa_shell — 61,129-byte HTML marketing shell, not a document.
+      - path: /.well-known/agent-card.json
+        status: 200
+        note: soft_200_spa_shell — 61,129-byte HTML marketing shell, not a document.
+      - path: /.well-known/agent.json
+        status: 200
+        note: soft_200_spa_shell — 61,129-byte HTML marketing shell, not a document.
+      - path: /.well-known/aauth-resource.json
+        status: 200
+        note: soft_200_spa_shell — 61,129-byte HTML marketing shell, not a document.
+
+summary:
+  documents_served: 2
+  security_txt: false
+  api_catalog: false
+  ai_plugin: false
+  oauth_authorization_server: true
+  agent_card: true

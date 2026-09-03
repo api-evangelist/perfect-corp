@@ -1,0 +1,139 @@
+generated: '2026-09-02'
+method: probed
+source: >-
+  https://docs.perfectcorp.com/develop/mcp (published configuration) plus a live anonymous MCP
+  initialize + tools/list handshake against each of the three endpoints on 2026-09-02.
+name: YouCam MCP Servers
+description: >-
+  Perfect Corp ships three hosted, remote MCP servers that front the YouCam AI REST API, split by
+  solution category. All three answer `initialize` and `tools/list` ANONYMOUSLY over Streamable
+  HTTP — the full tool set with per-tool JSON Schema was read without any credential — while tool
+  INVOCATION requires the same `Authorization: Bearer <API key>` used by the REST API. A fourth MCP
+  server, a documentation-search server, is served from the docs host and is listed separately.
+
+deployment:
+  mode: remote
+  endpoint: https://mcp-api-01.makeupar.com/mcp/beauty
+  auth: api-key
+  verified: probed
+  note: >-
+    Three sibling remote endpoints share one deployment (beauty / fashion / creators); the `endpoint`
+    field carries the beauty server because the block takes a single URL — see servers[] below for
+    all three. No stdio package is published: the provider's Claude Desktop instructions wrap the
+    REMOTE url with the third-party `npx -y mcp-remote` shim, which is a client-side transport
+    bridge, not a Perfect Corp package, so mode is `remote` and not `both`.
+
+transport: streamable-http
+protocol_version: '2025-06-18'
+authentication:
+  scheme: http-bearer
+  header: 'Authorization: Bearer <YOUR_API_KEY>'
+  key_source: https://yce.perfectcorp.com/api-console/en/api-keys/
+  anonymous_discovery: true
+  note: >-
+    initialize and tools/list returned HTTP 200 with no Authorization header on all three servers
+    (probed 2026-09-02). /.well-known/oauth-authorization-server and /.well-known/oauth-protected-resource
+    both 404 on mcp-api-01.makeupar.com, so the MCP surface is API-key only, not OAuth.
+
+servers:
+  - name: YouCam for Beauty & Skin Care
+    url: https://mcp-api-01.makeupar.com/mcp/beauty
+    server_info:
+      name: YouCam for Beauty & Skin Care
+      version: 1.0.1
+      websiteUrl: https://yce.perfectcorp.com/ai-api
+    capabilities: [tools, prompts, resources, logging, io.modelcontextprotocol/ui]
+    tool_count: 47
+    tools_manifest: mcp/perfect-corp-beauty-tools-list.json
+    http_status: 200
+    categories:
+      - Face & skin analysis and enhancement
+      - Hair styling, hair analysis and beard
+      - Body reshaping
+      - Makeup, nail, eye-colour and look virtual try-on
+      - Templates, detection preprocessing, upload, task status and feature cost
+  - name: YouCam for Fashion & Retail
+    url: https://mcp-api-01.makeupar.com/mcp/fashion
+    capabilities: [tools, prompts, resources, logging, io.modelcontextprotocol/ui]
+    tool_count: 18
+    tools_manifest: mcp/perfect-corp-fashion-tools-list.json
+    http_status: 200
+    categories:
+      - Clothing and fabric virtual try-on
+      - Footwear, headwear and scarves
+      - Jewellery, watches and bags
+      - Upload, task status and feature cost
+  - name: YouCam for Creators
+    url: https://mcp-api-01.makeupar.com/mcp/creators
+    capabilities: [tools, prompts, resources, logging, io.modelcontextprotocol/ui]
+    tool_count: 34
+    tools_manifest: mcp/perfect-corp-creators-tools-list.json
+    http_status: 200
+    categories:
+      - Image generation and enhancement
+      - Background removal, blur, change and video background replace
+      - Avatar, studio and headshot generation
+      - Face swap and object removal / replace
+      - Video generation, enhancement and style transfer
+  - name: Docs MCP server
+    url: https://docs.perfectcorp.com/mcp
+    server_info:
+      name: Docs MCP server
+      version: '2026-09-03'
+    capabilities: [tools, logging]
+    tool_count: 6
+    tools_manifest: mcp/perfect-corp-docs-tools-list.json
+    http_status: 200
+    scope: documentation
+    tools: [list-apis, get-endpoints, get-endpoint-info, get-security-schemes, get-full-api-description, search]
+    note: >-
+      A documentation-search MCP server on the provider's own docs host. It reads the OpenAPI
+      documents the docs site renders rather than calling the YouCam API, so it is a discovery
+      surface rather than an execution surface. It requires no session id and no credential.
+
+tool_totals:
+  registrations: 99
+  distinct_names: 89
+  shared_across_all_three: [upload_file, File-Upload, Get-Running-Task-Status, Get-Upload-API-Info, Get-Feature-Cost]
+
+client_configuration:
+  documented_clients: [Claude Desktop, Cursor, Copilot in VS Code, Codex]
+  http_example: |
+    {
+      "mcpServers": {
+        "youcam-beauty": {
+          "url": "https://mcp-api-01.makeupar.com/mcp/beauty",
+          "type": "http",
+          "headers": { "Authorization": "Bearer YOUR_API_KEY" }
+        }
+      }
+    }
+  docs: https://docs.perfectcorp.com/develop/mcp
+
+crosswalk: mcp/perfect-corp-tool-crosswalk.yml
+
+x-evidence:
+  - url: https://mcp-api-01.makeupar.com/mcp/beauty
+    method: POST initialize
+    http_status: 200
+    fetched: '2026-09-02'
+  - url: https://mcp-api-01.makeupar.com/mcp/beauty
+    method: POST tools/list
+    http_status: 200
+    bytes: 253853
+  - url: https://mcp-api-01.makeupar.com/mcp/fashion
+    method: POST tools/list
+    http_status: 200
+    bytes: 114554
+  - url: https://mcp-api-01.makeupar.com/mcp/creators
+    method: POST tools/list
+    http_status: 200
+    bytes: 100193
+  - url: https://docs.perfectcorp.com/mcp
+    method: POST tools/list
+    http_status: 200
+    bytes: 3830
+  - url: https://mcp-api-01.makeupar.com/.well-known/oauth-authorization-server
+    http_status: 404
+  - url: https://mcp-api-01.makeupar.com/.well-known/oauth-protected-resource/mcp/beauty
+    http_status: 404

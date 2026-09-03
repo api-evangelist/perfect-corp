@@ -1,0 +1,26 @@
+overlay: 1.0.0
+info:
+  title: apis.io enhancements — AI Makeup Virtual Try-On
+  version: 1.0.0
+extends: ../openapi/perfect-corp-makeup_vto-openapi.yml
+x-generated: '2026-09-02'
+x-method: generated
+x-source: openapi/perfect-corp-makeup_vto-openapi.yml
+x-note: Overlay of API Evangelist observations. The original contract in openapi/ is never mutated.
+actions:
+- target: $.info
+  description: Record where this contract was harvested from and when.
+  update:
+    x-apis-io:
+      harvested: '2026-09-02'
+      source: https://docs.perfectcorp.com/_bundle/reference/makeup_vto.json?download
+      provider: Perfect Corp
+      slug: perfect-corp
+- target: $.info
+  description: 2 of 2 operations in this document declare no operationId, so no stable identifier exists to reference
+    them by. Recorded, NOT repaired — the pipeline does not author identifiers into a provider contract.
+  update:
+    x-apis-io-findings:
+      operations_without_operationId:
+      - post /s2s/v2.0/task/makeup-vto
+      - get /s2s/v2.0/task/makeup-vto/{task_id}

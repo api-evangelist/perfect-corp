@@ -1,0 +1,76 @@
+generated: '2026-09-02'
+method: searched
+source: https://docs.perfectcorp.com/develop/webhook
+name: Perfect Corp YouCam API — webhook catalog
+description: >-
+  Perfect Corp publishes NO AsyncAPI document, but it does publish a real, specified webhook surface:
+  task-completion notifications signed to the Standard Webhooks specification. This artifact captures
+  the webhook catalog rather than fabricating an AsyncAPI document for it.
+asyncapi_document: null
+asyncapi_note: >-
+  Probed for an AsyncAPI at the docs host and the API host; none is published. Recorded as absent
+  rather than authored — the event surface here is a single completion callback, fully described by
+  the catalog below.
+
+standard: Standard Webhooks
+standard_url: https://github.com/standard-webhooks/standard-webhooks/blob/main/spec/standard-webhooks.md
+transport: HTTPS POST to a subscriber-controlled endpoint
+management_console: https://yce.makeupar.com/api-console/en/webhook/
+max_endpoints: 10
+
+signature:
+  scheme: HMAC-SHA256
+  secret_format: base64, prefixed `whsec_`
+  secret_note: Strip the `whsec_` prefix and base64-decode the remainder to get the signing key bytes.
+  signature_header: webhook-signature
+  signature_format: 'v1,<base64 HMAC-SHA256>'
+  signed_content: '{webhook-id}.{webhook-timestamp}.{raw-minified-json-body}'
+  versions_supported: [v1]
+
+headers:
+  - name: webhook-id
+    description: Unique identifier for the delivery; stable across retries — use it for idempotency.
+  - name: webhook-timestamp
+    description: Unix epoch seconds when the webhook was sent.
+  - name: webhook-signature
+    description: 'v1, followed by the base64 HMAC-SHA256 of the signed content.'
+
+event_count: 1
+events:
+  - name: task.completed
+    name_note: >-
+      Perfect Corp does not publish an event `type` field or an event name; there is one payload shape
+      and the outcome is carried in data.task_status. The name here is descriptive, not a wire value.
+    trigger: An AI task reaches a terminal state.
+    payload:
+      created_at:
+        type: integer
+        description: Unix epoch seconds when the task completed.
+      data.task_id:
+        type: string
+        description: The task identifier returned when the task was created; use it to fetch the result.
+      data.task_status:
+        type: string
+        enum: [success, error]
+    example: '{"created_at":1761112848,"data":{"task_id":"<task id>","task_status":"success"}}'
+    note: >-
+      The notification carries no result payload — it tells the subscriber the task is done and the
+      subscriber must call GET /s2s/v2.x/task/<feature>/{task_id} to retrieve it. Result download URLs
+      are valid for 2 hours.
+
+integration_steps:
+  - Expose an HTTPS POST endpoint.
+  - Create a webhook in the API Console and store the whsec_ secret.
+  - Run an AI task and record the task_id.
+  - On delivery, verify the signature, then use task_id to retrieve the result.
+
+gaps:
+  - No AsyncAPI or machine-readable event schema is published.
+  - No event type/name field, so a subscriber cannot route by event.
+  - No documented retry policy, delivery timeout, or replay/redelivery API.
+
+x-evidence:
+  - url: https://docs.perfectcorp.com/develop/webhook
+    http_status: 200
+  - url: https://docs.perfectcorp.com/develop/webhook.md
+    http_status: 200

@@ -1,0 +1,107 @@
+generated: '2026-09-02'
+method: derived
+source: openapi/_original/*.json (65 documents, 178 operations) with naming enriched from https://docs.perfectcorp.com/develop/quick_start_guide
+name: Perfect Corp YouCam API — data model
+description: >-
+  The YouCam API has an unusually small entity graph for its surface area. Sixty-five feature
+  contracts and 178 operations resolve to five entities and one repeated shape: a File is uploaded,
+  a Task is created against it, the Task consumes Units, some Tasks are parameterised by a Template,
+  and the result is a set of time-limited Asset URLs. Every AI feature is the same three-operation
+  pattern over these entities with a different request schema.
+
+entities:
+  - name: File
+    id_field: file_id
+    id_type: opaque base64 string
+    created_by: 'POST /s2s/v2.0/file'
+    description: >-
+      A two-phase upload. The API returns a presigned destination (requests[].url, .method, .headers)
+      and a file_id; the client must then PUT the bytes itself. The file_id is the handle every AI
+      operation accepts.
+    fields: [content_type, file_name, file_size, file_id, 'requests[]']
+    limits: {image: 10 MB, video: 100 MB}
+    retention: 30 days
+    relationships:
+      - {type: has_many, target: Task, via: 'src_file_id / file_id on task creation'}
+  - name: Task
+    id_field: task_id
+    id_type: opaque string (long; also appears as a large integer elsewhere — see the json-bigint caveat in conventions/)
+    created_by: 'POST /s2s/v2.x/task/<feature>'
+    read_by: 'GET /s2s/v2.x/task/<feature>/{task_id}'
+    deleted_by: 'POST /s2s/v2.0/task/delete'
+    description: >-
+      One asynchronous unit of AI work. 62 of the 65 contracts define exactly one Task family. Status
+      moves through a polling loop to a terminal success or error; a webhook can be delivered instead
+      of polling.
+    fields: [task_id, task_status, polling_interval, results, error, error_code]
+    states: [running, success, error]
+    retention: 30 days
+    relationships:
+      - {type: belongs_to, target: File, via: src_file_id}
+      - {type: has_many, target: ResultAsset, via: 'results / results.output mask_urls'}
+      - {type: belongs_to, target: Template, via: 'style_id / template id (feature-dependent, optional)'}
+      - {type: consumes, target: Unit, via: 'feature cost deducted at creation'}
+  - name: ResultAsset
+    id_field: null
+    description: >-
+      A generated image, video, ZIP bundle, mask or score set reachable from a download URL on the
+      task result. Not addressable independently of its Task.
+    validity: 2 hours per issued URL; re-query the task_id for a fresh link
+    relationships:
+      - {type: belongs_to, target: Task, via: task_id}
+  - name: Template
+    id_field: style_id / style group id (naming varies by feature)
+    read_by: 'GET /s2s/v2.x/task/template/<feature>'
+    description: >-
+      A predefined style the caller selects instead of supplying a reference image — hairstyles,
+      bangs, beards, hair extensions, hair volume, looks, fabrics, avatars, studio and headshot
+      styles, and video style transfer filters. Paginated with page_size + starting_token.
+    relationships:
+      - {type: has_many, target: Task, via: 'style_id on task creation'}
+    error_codes: [InvalidStyle, InvalidStyleGroup]
+  - name: Unit
+    id_field: null
+    aka: Credit
+    read_by: ['GET /s2s/v1.0/client/credit', 'GET /s2s/v1.0/client/credit/history', 'GET /s2s/v2.0/credit/feature-cost']
+    description: >-
+      The account's prepaid balance. Different features deduct different amounts; feature-cost returns
+      the price list. Insufficient balance is the request error CreditInsufficiency.
+    relationships:
+      - {type: consumed_by, target: Task, via: per-feature cost}
+  - name: WebhookEndpoint
+    id_field: null
+    managed_in: https://yce.makeupar.com/api-console/en/webhook/
+    api_managed: false
+    description: >-
+      Up to 10 subscriber endpoints, configured in the console only — there is no REST operation to
+      create, list or delete a webhook endpoint, so an agent cannot manage its own subscriptions.
+    relationships:
+      - {type: receives, target: Task, via: 'data.task_id in the completion notification'}
+
+id_prefixes:
+  documented: []
+  note: >-
+    No typed id prefixes (no `task_`, `file_` convention). file_id is opaque base64; task_id is an
+    opaque long. Nothing in an id tells a consumer what it addresses.
+
+repeated_operation_shape:
+  create: 'POST /s2s/v2.x/task/<feature>'
+  poll: 'GET /s2s/v2.x/task/<feature>/{task_id}'
+  templates: 'GET /s2s/v2.x/task/template/<feature>   (features with a style catalogue)'
+  preprocess: 'POST /s2s/v2.0/task/<feature>/pre-process   (features requiring detection first)'
+  note: >-
+    Detection / pre-process operations exist for AI Face Lift, AI Face Reshape, AI Body Reshape,
+    AI Teeth Whitening, AI Face Swap and the Fitzpatrick analyzer; they produce the detection payload
+    the main task requires.
+
+schema_reuse:
+  shared_components: [BasicRunTaskV2, BasicRunTaskV2SrcFileId, BasicRunTaskV2SrcFileUrl, BasicRunTaskResponseV2, EngineErrorCode, TemplatePageSize, TemplateStartingToken]
+  note: >-
+    Perfect Corp factors a genuine shared component base (openapi/_original/perfect-corp-openapi-base.json
+    carries the securitySchemes, pagination parameters and the EngineErrorCode enum), then inlines it
+    into each per-feature bundle. Each published bundle is therefore self-contained.
+
+known_gaps:
+  - No operationId on any of the 178 operations, so entities and operations cannot be referenced by a stable identifier.
+  - No webhook-endpoint management API; subscriptions are console-only.
+  - No account, project or user entity is exposed on the API surface, though the console has project management.

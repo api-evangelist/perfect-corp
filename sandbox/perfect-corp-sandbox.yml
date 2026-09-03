@@ -1,0 +1,58 @@
+generated: '2026-09-02'
+method: searched
+source: https://docs.perfectcorp.com/develop/api_playground
+name: Perfect Corp YouCam API — sandbox and testing
+description: >-
+  Perfect Corp ships a hosted API Playground inside the API console rather than a separate test
+  environment. It is a real console over the LIVE API — there is no test-mode key, no sandbox host
+  and no test/live key-prefix distinction — so every playground run consumes real units against the
+  real account.
+type: hosted-console
+url: https://yce.perfectcorp.com/api-console/en/api-playground/ai-skin-analysis/
+console_url: https://yce.perfectcorp.com/api-console/en/
+
+test_live_separation:
+  separate_environment: false
+  separate_host: false
+  test_key_prefix: null
+  live_key_prefix: null
+  note: >-
+    One key, one host (https://yce-api-01.makeupar.com). Keys carry no environment prefix and there is
+    no documented test mode. Anything run in the playground is billed.
+
+capabilities:
+  - Choose a feature from the full catalog and run it end to end.
+  - Select an API key from the account in the Authorization field.
+  - Choose a source — local file upload, file URL, or a provider-supplied sample image.
+  - Configure the feature's parameters through a form.
+  - Inspect the generated request payload and copy the generated sample code.
+  - Execute the task and inspect the result.
+
+sample_data:
+  provided: true
+  kind: provider-hosted sample images selectable as the task source
+  values_published: false
+  note: >-
+    Samples are selectable in the console UI; Perfect Corp publishes no fixed test file_id, no magic
+    identifier range and no fixture values in the documentation, so none are recorded here.
+
+test_clocks: false
+fixtures_or_triggers: false
+webhook_testing:
+  provider_simulator: false
+  recommended_third_party: https://www.standardwebhooks.com/simulate
+  note: >-
+    Perfect Corp ships no webhook simulator of its own; the webhook page points at the Standard
+    Webhooks project's public simulator for payload testing.
+
+free_access:
+  registration: https://yce.perfectcorp.com/ai-api
+  note: Registration is free and a unit grant is available for trialling; the grant size is not published on a server-rendered page.
+
+x-evidence:
+  - url: https://docs.perfectcorp.com/develop/api_playground
+    http_status: 200
+  - url: https://yce.perfectcorp.com/api-console/en/
+    http_status: 200
+  - url: https://yce.perfectcorp.com/api-console/en/api-keys/
+    http_status: 200

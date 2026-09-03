@@ -1,0 +1,57 @@
+generated: '2026-09-02'
+method: searched
+source: https://docs.perfectcorp.com/develop/rate_limit
+name: Perfect Corp YouCam API — rate limits
+description: >-
+  Two limits are published and BOTH must be satisfied for a request to be accepted — one keyed on
+  client IP, one keyed on access token. Perfect Corp documents the numbers and the exhaustion status
+  but returns no rate-limit response headers, so an agent has no runtime signal: it can only learn it
+  is over the line by receiving a 429.
+
+limit_count: 2
+limits:
+  - scope: per-ip
+    limit: 250
+    window: 300s
+    burst: null
+    recommended_pacing: ~5 requests per second
+    status_on_exhaustion: 429
+    note: Each IP address is limited to 250 requests per 300 seconds.
+  - scope: per-access-token
+    limit: 250
+    window: 300s
+    burst: null
+    recommended_pacing: ~5 requests per second
+    status_on_exhaustion: 429
+    note: >-
+      Each access token is limited to 250 requests per 300 seconds. Both conditions must be met;
+      failing either returns 429.
+
+response_headers:
+  documented: []
+  observed: []
+  note: >-
+    No RateLimit-*, X-RateLimit-* or Retry-After header is documented, and none was present on a live
+    unauthenticated response from https://yce-api-01.makeupar.com (401 observed 2026-09-02; the
+    response carried only server, x-request-id, x-frame-options, strict-transport-security and vary).
+    The documentation advises implementing backoff and retry but names no header to drive it.
+  headers_present_on_error_responses: [x-request-id]
+
+status_code_on_exhaustion: 429
+declared_in_spec:
+  responses_429: 77
+  note: >-
+    77 of the 178 published operations declare a 429 response ($ref components/responses/TooManyRequests,
+    body {status, error}); the remaining 101 declare only 200/400/401.
+retry_guidance: >-
+  "It is recommended that you handle rate limit errors gracefully in your application by implementing
+  the appropriate backoff and retry mechanisms." — verbatim from the rate limit page.
+
+x-evidence:
+  - url: https://docs.perfectcorp.com/develop/rate_limit
+    http_status: 200
+  - url: https://docs.perfectcorp.com/develop/rate_limit.md
+    http_status: 200
+  - url: https://yce-api-01.makeupar.com/s2s/v2.0/credit/feature-cost
+    http_status: 401
+    note: Live header inspection; no rate-limit headers returned.

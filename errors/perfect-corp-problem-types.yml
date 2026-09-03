@@ -1,0 +1,141 @@
+generated: '2026-09-02'
+method: derived
+source: openapi/_original/*.json (components.responses) enriched from https://docs.perfectcorp.com/develop/error_codes
+name: Perfect Corp YouCam API — error catalog
+description: >-
+  The YouCam API does NOT use RFC 9457 problem+json. Every error is application/json with a flat
+  three-field envelope — status, error, and (on task-creation failures) error_code. There are two
+  distinct code vocabularies that live in different places and are easy to confuse: REQUEST-level
+  error_code values returned in the 4xx envelope, and ENGINE-level codes returned inside a 200
+  response body when a task finishes with task_status "error".
+format: custom-json
+rfc9457: false
+media_type: application/json
+
+envelope:
+  fields:
+    - name: status
+      type: integer
+      description: Mirrors the HTTP status code.
+    - name: error
+      type: string
+      description: Human-readable message.
+    - name: error_code
+      type: string
+      description: Machine-readable code; present on request-level failures.
+  example: '{"status":401,"error":"This API key is not recognized.","error_code":"InvalidApiKey"}'
+  observed: true
+  observed_note: Envelope confirmed live against GET /s2s/v2.0/credit/feature-cost with an invalid token, 2026-09-02.
+
+http_statuses:
+  '200': 178 operations
+  '400': 177 operations
+  '401': 178 operations
+  '429': 77 operations
+  '500': 77 operations
+
+request_errors:
+  - code: InvalidParameters
+    status: 400
+    title: Invalid request parameters
+    remediation: Compare the request body against the feature's OpenAPI requestBody schema.
+  - code: BadRequest
+    status: 400
+    title: Unexpected request parameter
+    remediation: Remove parameters the operation does not declare.
+  - code: CreditInsufficiency
+    status: 400
+    title: Insufficient units to run the task
+    remediation: >-
+      Top up units in the API console. Check the cost of the feature first with
+      GET /s2s/v2.0/credit/feature-cost and the balance with GET /s2s/v1.0/client/credit.
+  - code: InvalidStyleGroup
+    status: 400
+    title: Invalid style group id
+    remediation: List valid groups with the feature's GET /s2s/v2.x/task/template/<feature> operation.
+  - code: InvalidStyle
+    status: 400
+    title: Invalid style id
+    remediation: List valid styles with the feature's template operation.
+  - code: InvalidTaskId
+    status: 400
+    title: Invalid task ID
+    remediation: >-
+      Documented cause is polling a task that has already timed out. Poll inside the returned
+      polling_interval; a task_id stays valid for 30 days.
+  - code: InvalidApiKey
+    status: 401
+    title: Invalid or missing API key
+    remediation: >-
+      Send `Authorization: Bearer <API key>`. Documented failure modes: missing "Bearer " prefix, and
+      wrapping the key in angle brackets.
+  - code: InactiveApiKey
+    status: 401
+    title: API key is not active
+    remediation: Activate or regenerate the key in the API console.
+  - code: ExpiredApiKey
+    status: 401
+    title: API key has expired
+    remediation: Generate a new key in the API console.
+  - code: InvalidAccessToken
+    status: 401
+    title: Invalid access token (legacy V1 S2S flow)
+    remediation: Re-exchange client credentials; V2 uses the API key directly.
+  - code: OperationNotSupport
+    status: 400
+    title: Operation not supported for this resource
+  - code: OperationInvalid
+    status: 400
+    title: Operation invalid for the current resource state
+  - code: TaskTimeout
+    status: 500
+    title: Task execution timed out
+    remediation: Resubmit the task; retry with a smaller input where the feature documents size limits.
+
+engine_errors:
+  note: >-
+    Returned inside a HTTP 200 body when task_status is "error" (schema EngineErrorCode). An agent
+    that only checks the HTTP status will read these as successes.
+  codes:
+    - {code: exceed_max_filesize, meaning: The input file size exceeds the maximum limit}
+    - {code: error_exceed_max_image_size, meaning: Input image size exceeds the maximum limit}
+    - {code: invalid_parameter, meaning: The parameter value is invalid}
+    - {code: error_download_image, meaning: There was an error downloading the source image}
+    - {code: error_download_mask, meaning: There was an error downloading the mask image}
+    - {code: error_download_video, meaning: There was an error downloading the source video}
+    - {code: error_decode_image, meaning: There was an error decoding the source image}
+    - {code: error_decode_mask, meaning: There was an error decoding the mask image}
+    - {code: error_decode_video, meaning: There was an error decoding the source video}
+    - {code: error_nsfw_content_detected, meaning: NSFW content was detected in the source image}
+    - {code: exceed_nsfw_retry_limits, meaning: Retry limits exceeded to avoid generating NSFW image}
+    - {code: error_no_face, meaning: No face was detected in the source image}
+    - {code: error_multiple_people, meaning: Multiple people were detected in the source image}
+    - {code: error_pose, meaning: Failed to detect pose in the source image}
+    - {code: error_face_parsing, meaning: Failed to perform face parsing on the source image}
+    - {code: error_large_face_angle, meaning: The face angle in the uploaded image is too large}
+    - {code: error_no_shoulder, meaning: Shoulders are not visible in the source image}
+    - {code: error_hair_too_short, meaning: The input hair is too short}
+    - {code: error_bald_image, meaning: The input hairstyle is bald}
+    - {code: error_unsupport_ratio, meaning: The aspect ratio of the input image is unsupported}
+    - {code: error_unexpected_video_duration, meaning: The video duration does not match the expected duration}
+    - {code: error_inference, meaning: An error occurred in the inference pipeline}
+    - {code: error_upload, meaning: There was an error uploading the result image}
+    - {code: unknown_internal_error, meaning: Other internal errors}
+
+gaps:
+  - >-
+    No 429 or 500 response is declared on 101 of the 178 operations, though the platform-wide rate
+    limit applies to all of them.
+  - >-
+    No `type` URI, `title`/`detail` split, or problem+json media type — a client cannot dereference
+    an error for documentation.
+  - >-
+    Engine errors are carried in a 200 body, so error handling cannot be driven by HTTP status alone.
+
+x-evidence:
+  - url: https://docs.perfectcorp.com/develop/error_codes
+    http_status: 200
+  - url: https://docs.perfectcorp.com/develop/debugging_guide.md
+    http_status: 200
+  - url: https://yce-api-01.makeupar.com/s2s/v2.0/credit/feature-cost
+    http_status: 401

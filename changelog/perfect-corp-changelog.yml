@@ -1,0 +1,99 @@
+generated: '2026-09-02'
+method: searched
+source: https://docs.perfectcorp.com/release/changelog
+name: Perfect Corp YouCam API — release notes
+description: >-
+  A dated, versioned release-notes page covering the whole YouCam API, maintained in the developer
+  documentation and machine-readable at /release/changelog.md. Entries name the features added and
+  link to the reference page for each. No entry in the recent window announces a breaking change or a
+  removal — releases are additive.
+url: https://docs.perfectcorp.com/release/changelog
+markdown_url: https://docs.perfectcorp.com/release/changelog.md
+scheme: semver-ish product train (v1.MINOR[.PATCH])
+current_version: v1.15
+current_version_date: '2026-08-26'
+cadence: every 2–6 weeks
+breaking_changes_in_window: 0
+
+entries:
+  - version: v1.15
+    date: '2026-08-26'
+    breaking: false
+    additions: [AI Nail Transfer]
+    highlights:
+      - New AI Nail Transfer API recreates a nail design from a reference photo onto a user's hand.
+      - New `Overall` parameter adjusts both sides at once in AI Face Reshape and AI Body Reshape.
+      - JS Camera Kit adds Mongolian UI language support.
+  - version: v1.14.2
+    date: '2026-08-11'
+    breaking: false
+    additions: []
+    highlights:
+      - >-
+        MCP platform restructured into three solution categories — YouCam for Beauty & Skin Care,
+        YouCam for Fashion & Retail, and YouCam for Creators — the three endpoints now on
+        mcp-api-01.makeupar.com.
+    note: The published release date is rendered as 2026-08-`11` (stray backticks in the source page).
+  - version: v1.14.1
+    date: '2026-08-06'
+    breaking: false
+    additions: []
+    highlights:
+      - >-
+        AI Clothes Virtual Try-On adds outerwear (jackets and vests) and a category selector
+        (Full Body, Upper Body, Lower Body, Shoes, Outerwear, or Auto).
+  - version: v1.14
+    date: '2026-07-28'
+    breaking: false
+    additions: [AI Abs Filter, AI Photo Background Blur, Universal File Upload]
+    highlights:
+      - One universal File API now uploads both image and video files.
+      - MCP integration extended to cover all APIs.
+  - version: v1.13
+    date: '2026-06-29'
+    breaking: false
+    additions: [AI Video Object Removal, AI Video Background Replace, AI Photo Background Change templates]
+    highlights:
+      - New GET /s2s/v2.0/credit/feature-cost returns per-feature unit consumption.
+      - New POST /s2s/v2.0/task/delete removes a finished task with its inputs and outputs.
+      - MCP gains AI Image Generator and AI Video Generator; three MCP tools updated.
+  - version: v1.12.1
+    date: '2026-06-09'
+    breaking: false
+    highlights:
+      - AI Skin Analysis v2.1 — updated engines, max skincare output resolution raised to 2560 px with automatic input resizing.
+  - version: v1.12
+    date: '2026-05-28'
+    breaking: false
+    additions: [AI Background (prompt-driven background change), AI Fitzpatrick Skin Type Analysis]
+  - version: v1.11.1
+    date: '2026-05-11'
+    breaking: false
+    highlights: [AI Skin Analysis adds skin type detection.]
+  - version: v1.11
+    date: '2026-05-04'
+    breaking: false
+  - version: v1.10.1
+    date: '2026-04-16'
+    breaking: false
+  - version: v1.10
+    date: '2026-03-30'
+    breaking: false
+  - version: v1.9
+    date: '2026-03-02'
+    breaking: false
+  - version: v1.8
+    date: '2026-01-28'
+    breaking: false
+  - version: v1.7
+    date: '2025-12-29'
+    breaking: false
+  - version: v1.6
+    date: '2025-11-25'
+    breaking: false
+
+x-evidence:
+  - url: https://docs.perfectcorp.com/release/changelog
+    http_status: 200
+  - url: https://docs.perfectcorp.com/release/changelog.md
+    http_status: 200

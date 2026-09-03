@@ -1,0 +1,155 @@
+generated: '2026-09-02'
+method: searched
+source: >-
+  openapi/_original/*.json, well-known/perfect-corp-oauth-authorization-server.json,
+  a2a/perfect-corp-agent-card.json, mcp/*-tools-list.json, https://docs.perfectcorp.com/develop/webhook,
+  https://www.perfectcorp.com/business/privacy
+name: Perfect Corp YouCam API — standards conformance
+description: >-
+  What the YouCam API contracts and served documents actually assert. Perfect Corp's strongest
+  conformance signals are on the AGENT side — a live MCP 2025-06-18 implementation, an A2A 0.3.0
+  agent card, an RFC 8414 authorization-server document and Standard Webhooks signing — while the
+  REST contract itself is a plain OpenAPI 3.0.0 with a bespoke error envelope.
+
+conformance:
+  - id: openapi-3.0
+    conforms: true
+    evidence: >-
+      65 documents declaring "openapi": "3.0.0", 178 operations, all published at
+      https://docs.perfectcorp.com/_bundle/reference/<feature>.json?download and saved verbatim in
+      openapi/_original/.
+  - id: oauth2
+    conforms: partial
+    evidence: >-
+      An RFC 8414 Authorization Server Metadata document is served at
+      https://yce-api-01.makeupar.com/.well-known/oauth-authorization-server (issuer
+      https://yce-api-01.perfectcorp.com) declaring authorization_code + refresh_token, PKCE S256 and
+      two scopes. The 65 published contracts declare only HTTP bearer, and no operation references an
+      oauth2 scheme, so the OAuth surface is discoverable but not documented in the API reference.
+  - id: rfc8414
+    conforms: true
+    evidence: /.well-known/oauth-authorization-server returns valid AS metadata (HTTP 200, 2026-09-02).
+  - id: rfc7636
+    conforms: true
+    evidence: code_challenge_methods_supported ["S256"] in the AS metadata.
+  - id: rfc7591
+    conforms: true
+    evidence: registration_endpoint https://yce-api-01.perfectcorp.com/oauth2/register in the AS metadata.
+  - id: rfc9728
+    conforms: false
+    evidence: >-
+      client_id_metadata_document_supported is true in the AS metadata, but
+      /.well-known/oauth-protected-resource returns 404 on both the API host and the MCP host, so the
+      protected-resource half of the discovery pair is not served.
+  - id: oidc
+    conforms: false
+    evidence: /.well-known/openid-configuration 404s on every host.
+  - id: rfc9457
+    conforms: false
+    evidence: >-
+      Errors are application/json with a flat {status, error, error_code} envelope, not
+      application/problem+json. See errors/perfect-corp-problem-types.yml.
+  - id: pagination
+    conforms: true
+    evidence: >-
+      Cursor pagination declared as shared components.parameters — page_size (1–20, default 20) and
+      starting_token — with next_token in the response. Applied to the template-listing operations.
+  - id: idempotency
+    conforms: false
+    evidence: >-
+      No Idempotency-Key header and no idempotency semantics on any of the 178 operations. Inbound
+      webhooks do carry a retry-stable webhook-id for subscriber-side deduplication.
+  - id: mcp
+    conforms: true
+    version: '2025-06-18'
+    evidence: >-
+      Three hosted Streamable HTTP MCP servers negotiated protocolVersion 2025-06-18 and returned 99
+      tool registrations with JSON Schema over an anonymous tools/list (probed 2026-09-02). A fourth
+      documentation MCP server runs on docs.perfectcorp.com.
+  - id: a2a
+    conforms: true
+    version: 0.3.0
+    grade: conformant
+    evidence: >-
+      /.well-known/agent-card.json on docs.perfectcorp.com returns a valid AgentCard — capabilities is
+      an object, protocolVersion 0.3.0, skills is an array (empty). Graded in a2a/perfect-corp-a2a.yml.
+  - id: standard-webhooks
+    conforms: true
+    evidence: >-
+      "Notifications ... follow the Standard Webhooks Specification" — HMAC-SHA256, whsec_ secret
+      prefix, webhook-id / webhook-timestamp / webhook-signature headers, v1 signature scheme.
+      https://docs.perfectcorp.com/develop/webhook
+  - id: llms-txt
+    conforms: true
+    evidence: https://docs.perfectcorp.com/llms.txt returns 200 text/plain, 377,163 bytes, indexing the full documentation set.
+  - id: gdpr
+    conforms: true
+    evidence: >-
+      The YouCam SaaS Privacy Policy (effective August 2026) carries a dedicated GDPR data-subject-rights
+      section. https://www.perfectcorp.com/business/privacy
+  - id: ccpa
+    conforms: true
+    evidence: >-
+      The same policy carries CCPA/CPRA disclosures for California residents.
+      https://www.perfectcorp.com/business/privacy
+  - id: soc2
+    conforms: false
+    evidence: No SOC 2 report or claim is published on any reachable Perfect Corp page; no trust center exists (trust.perfectcorp.com NXDOMAIN).
+  - id: iso27001
+    conforms: false
+    evidence: No ISO 27001 certification is published on any reachable Perfect Corp page.
+
+domain_standard:
+  market: beauty / dermatology / visual commerce
+  standards_declared:
+    - id: fitzpatrick-skin-type
+      conforms: true
+      kind: clinical classification scale
+      evidence: >-
+        The contract itself declares the standard rather than a marketing page: openapi/_original/
+        perfect-corp-ai_fitzpatrick_skin_type.json publishes a dedicated feature — "AI Fitzpatrick
+        Skin Type Analysis ... classifies skin into 6 Fitzpatrick types based on melanin levels and
+        UV response" — exposed at POST /s2s/v2.0/task/fitzpatrick-scale-analyzer and as the MCP tool
+        AI-Fitzpatrick-Skin-Type-Analysis. The Fitzpatrick scale (I–VI) is the standard dermatology
+        phototype classification, so a downstream skincare or clinical system that already speaks it
+        can consume this output with no bespoke mapping.
+      note: >-
+        This is the one place where the YouCam API emits a value in an established third-party
+        vocabulary rather than a Perfect Corp-defined score. Every other analysis feature returns
+        Perfect Corp's own raw_score / ui_score scales.
+  standards_absent:
+    - >-
+      No product-identifier standard (GTIN/GS1) is declared anywhere in the virtual-try-on contracts,
+      even though the jewellery, watch, apparel and cosmetics try-on features are built for retail
+      catalogues. Styles and templates are addressed by Perfect Corp-internal style ids and style
+      group ids only, so a retailer must maintain a bilateral mapping between its own catalogue and
+      Perfect Corp's ids.
+    - >-
+      No standard skin-concern vocabulary beyond Fitzpatrick — wrinkle, pore, acne, oiliness,
+      redness and texture scores are returned on Perfect Corp's own 0–100 ui_score scale with no
+      published clinical mapping.
+  reward_only_note: >-
+    Recorded as findings, not penalties. Visual-commerce AI has no widely-adopted contract standard;
+    the Fitzpatrick declaration is a genuine positive.
+
+compliance_program:
+  published: true
+  regimes: [GDPR, CCPA, CPRA]
+  privacy_policy: https://www.perfectcorp.com/business/privacy
+  terms_of_service: https://www.perfectcorp.com/business/terms
+  certifications: []
+  trust_center: null
+  note: >-
+    A substantive SaaS privacy policy (effective August 2026, ~45,000 characters of rendered text)
+    with named GDPR and CCPA/CPRA sections. No third-party audit certification (SOC 2, ISO 27001) is
+    published, and no trust center exists.
+
+x-evidence:
+  - {url: 'https://yce-api-01.makeupar.com/.well-known/oauth-authorization-server', http_status: 200}
+  - {url: 'https://docs.perfectcorp.com/.well-known/agent-card.json', http_status: 200}
+  - {url: 'https://mcp-api-01.makeupar.com/mcp/beauty', http_status: 200, note: 'POST tools/list, anonymous'}
+  - {url: 'https://docs.perfectcorp.com/llms.txt', http_status: 200}
+  - {url: 'https://www.perfectcorp.com/business/privacy', http_status: 200}
+  - {url: 'https://www.perfectcorp.com/business/terms', http_status: 200}
+  - {url: 'https://trust.perfectcorp.com/', http_status: '<no response> — DNS NXDOMAIN'}
+  - {url: 'https://docs.perfectcorp.com/.well-known/openid-configuration', http_status: 404}

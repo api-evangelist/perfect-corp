@@ -1,0 +1,135 @@
+generated: '2026-09-02'
+method: searched
+source: https://docs.perfectcorp.com/develop/quick_start_guide, /develop/debugging_guide, /develop/mcp, https://yce-api-01.makeupar.com/.well-known/oauth-authorization-server,
+  and the 65 published OpenAPI 3.0.0 documents in openapi/.
+docs: https://docs.perfectcorp.com/develop/quick_start_guide
+name: Perfect Corp YouCam API — authentication
+description: 'One credential covers the whole platform: a YouCam API key sent as an HTTP bearer token. The same
+  key authenticates the REST API and all three hosted MCP servers. An OAuth 2.0 authorization server is ALSO discoverable
+  at the API host well-known path, but nothing in the developer documentation references it and no published operation
+  requires it.'
+primary:
+  scheme: http-bearer
+  header: 'Authorization: Bearer <YOUR_API_KEY>'
+  applies_to:
+  - REST API (all 178 published operations)
+  - MCP servers beauty / fashion / creators
+  key_management: https://yce.perfectcorp.com/api-console/en/api-keys/
+  signup: https://yce.perfectcorp.com/ai-api
+  key_prefix: null
+  rotation: Keys are generated and maintained in the API Console; no rotation policy or expiry period is published.
+  documented_failure_modes:
+  - 'Missing the "Bearer " prefix — send `Authorization: Bearer KEY`, not `Authorization: KEY`.'
+  - Wrapping the key in angle brackets (`Bearer <KEY>`) — the brackets are sent literally and the request fails.
+  - Inactive or expired key — error codes InactiveApiKey / ExpiredApiKey.
+  error_codes:
+  - InvalidApiKey
+  - InactiveApiKey
+  - ExpiredApiKey
+legacy:
+  scheme: http-bearer (exchanged access_token)
+  name: BearerAuthentication
+  flow: POST /s2s/v1.0/client/auth exchanges client credentials for a short-lived access_token.
+  status: still declared in the contracts alongside the V2 scheme; no end-of-life date is published.
+  error_code: InvalidAccessToken
+  note: Only the unit_system contract still applies this scheme to an operation; every AI feature uses BearerAuthenticationV2.
+oauth2:
+  discoverable: true
+  metadata_url: https://yce-api-01.makeupar.com/.well-known/oauth-authorization-server
+  issuer: https://yce-api-01.perfectcorp.com
+  documented_in_developer_docs: false
+  referenced_by_any_operation: false
+  detail: scopes/perfect-corp-scopes.yml
+  note: An RFC 8414 authorization-server metadata document is served anonymously and describes a public-client authorization_code
+    + PKCE S256 flow with dynamic client registration and two scopes (task.run, task.read). It appears nowhere in
+    the API reference, the quick start, or the MCP page — an undocumented but real second authentication surface.
+mtls: false
+openid_connect: false
+api_key_in_query: false
+summary:
+  types:
+  - http
+schemes:
+- name: BearerAuthenticationV2
+  type: http
+  scheme: bearer
+  description: 'Use the standard ''Bearer authentication''. Put your ''API Key'' in header: `Authorization:Bearer
+    YOUR_API_KEY`. Notice that there is '' '' a space between ''Bearer'' and the ''YOUR_API_KEY''.'
+  sources:
+  - openapi/perfect-corp-ai_abs_filter-openapi.yml
+  - openapi/perfect-corp-ai_aging_simulation-openapi.yml
+  - openapi/perfect-corp-ai_avatar_generator-openapi.yml
+  - openapi/perfect-corp-ai_background_removal-openapi.yml
+  - openapi/perfect-corp-ai_bag-openapi.yml
+  - openapi/perfect-corp-ai_bangs-openapi.yml
+  - openapi/perfect-corp-ai_beard_style-openapi.yml
+  - openapi/perfect-corp-ai_body_reshape-openapi.yml
+  - openapi/perfect-corp-ai_bracelet-openapi.yml
+  - openapi/perfect-corp-ai_breast_augmentation-openapi.yml
+  - openapi/perfect-corp-ai_clothes-openapi.yml
+  - openapi/perfect-corp-ai_color_correction-openapi.yml
+  - openapi/perfect-corp-ai_earrings-openapi.yml
+  - openapi/perfect-corp-ai_eye_color_lens-openapi.yml
+  - openapi/perfect-corp-ai_fabric-openapi.yml
+  - openapi/perfect-corp-ai_face_analyzer-openapi.yml
+  - openapi/perfect-corp-ai_face_lift-openapi.yml
+  - openapi/perfect-corp-ai_face_reshape-openapi.yml
+  - openapi/perfect-corp-ai_face_swap-openapi.yml
+  - openapi/perfect-corp-ai_fitzpatrick_skin_type-openapi.yml
+  - openapi/perfect-corp-ai_hair_color-openapi.yml
+  - openapi/perfect-corp-ai_hair_density_detection-openapi.yml
+  - openapi/perfect-corp-ai_hair_extension-openapi.yml
+  - openapi/perfect-corp-ai_hair_frizziness_detection-openapi.yml
+  - openapi/perfect-corp-ai_hair_length_detection-openapi.yml
+  - openapi/perfect-corp-ai_hair_type_detection-openapi.yml
+  - openapi/perfect-corp-ai_hair_volume-openapi.yml
+  - openapi/perfect-corp-ai_hairstyle-openapi.yml
+  - openapi/perfect-corp-ai_hat-openapi.yml
+  - openapi/perfect-corp-ai_headshot_generator-openapi.yml
+  - openapi/perfect-corp-ai_image_extender-openapi.yml
+  - openapi/perfect-corp-ai_image_generator-openapi.yml
+  - openapi/perfect-corp-ai_look_vto-openapi.yml
+  - openapi/perfect-corp-ai_makeup_transfer-openapi.yml
+  - openapi/perfect-corp-ai_nail_transfer-openapi.yml
+  - openapi/perfect-corp-ai_nail_vto-openapi.yml
+  - openapi/perfect-corp-ai_necklace-openapi.yml
+  - openapi/perfect-corp-ai_object_removal_pro-openapi.yml
+  - openapi/perfect-corp-ai_photo_background_blur-openapi.yml
+  - openapi/perfect-corp-ai_photo_background_change-openapi.yml
+  - openapi/perfect-corp-ai_photo_colorize-openapi.yml
+  - openapi/perfect-corp-ai_photo_enhance-openapi.yml
+  - openapi/perfect-corp-ai_photo_lighting-openapi.yml
+  - openapi/perfect-corp-ai_replace-openapi.yml
+  - openapi/perfect-corp-ai_scarf-openapi.yml
+  - openapi/perfect-corp-ai_shoes-openapi.yml
+  - openapi/perfect-corp-ai_skin_analysis-openapi.yml
+  - openapi/perfect-corp-ai_skin_simulation-openapi.yml
+  - openapi/perfect-corp-ai_skin_tone_analysis-openapi.yml
+  - openapi/perfect-corp-ai_smile-openapi.yml
+  - openapi/perfect-corp-ai_studio_generator-openapi.yml
+  - openapi/perfect-corp-ai_teeth_whitening-openapi.yml
+  - openapi/perfect-corp-ai_video_background_replace-openapi.yml
+  - openapi/perfect-corp-ai_video_enhancer-openapi.yml
+  - openapi/perfect-corp-ai_video_face_swap-openapi.yml
+  - openapi/perfect-corp-ai_video_generator-openapi.yml
+  - openapi/perfect-corp-ai_video_object_removal-openapi.yml
+  - openapi/perfect-corp-ai_video_style_transfer-openapi.yml
+  - openapi/perfect-corp-ai_watch-openapi.yml
+  - openapi/perfect-corp-ai_wavy_hair-openapi.yml
+  - openapi/perfect-corp-file-openapi.yml
+  - openapi/perfect-corp-makeup_vto-openapi.yml
+  - openapi/perfect-corp-ring_vto-openapi.yml
+  - openapi/perfect-corp-task_management-openapi.yml
+  - openapi/perfect-corp-unit_system-openapi.yml
+x-evidence:
+- url: https://docs.perfectcorp.com/develop/quick_start_guide
+  http_status: 200
+- url: https://docs.perfectcorp.com/develop/debugging_guide.md
+  http_status: 200
+- url: https://yce-api-01.makeupar.com/.well-known/oauth-authorization-server
+  http_status: 200
+- url: https://yce-api-01.makeupar.com/s2s/v2.0/credit/feature-cost
+  http_status: 401
+  body: '{"status":401,"error":"This API key is not recognized.","error_code":"InvalidApiKey"}'
+- url: https://yce.perfectcorp.com/api-console/en/api-keys/
+  http_status: 200

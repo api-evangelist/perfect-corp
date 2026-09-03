@@ -1,0 +1,48 @@
+generated: '2026-09-02'
+method: generated
+source: >-
+  openapi/ (65 published OpenAPI 3.0.0 documents), conventions/perfect-corp-conventions.yml,
+  errors/perfect-corp-problem-types.yml, rate-limits/perfect-corp-rate-limits.yml, and the YouCam
+  developer guide at https://docs.perfectcorp.com/develop/.
+name: Perfect Corp YouCam API — Agent Skills
+description: >-
+  Packaged operating instructions for the marquee YouCam flows. Every step is grounded in a real
+  method + path from the published contracts — the contracts declare no operationId, so operations are
+  addressed by method and path throughout. Perfect Corp publishes no skills or AGENTS.md of its own;
+  these are generated from its contracts and documentation.
+provider_published_skills: false
+provider_published_skills_note: >-
+  Probed docs.perfectcorp.com and the product hosts for a provider-authored skills file or AGENTS.md;
+  none is served. The A2A agent card at docs.perfectcorp.com carries an EMPTY skills[] array.
+skill_count: 4
+skills:
+  - file: perfect-corp-run-ai-task.md
+    name: perfect-corp-run-ai-task
+    summary: >-
+      The universal pattern — upload in two phases, create the task, poll to terminal, retrieve within
+      2 hours, delete. Learn once, applies to all 60+ features.
+    operations: ['POST /s2s/v2.0/file', 'POST /s2s/v2.0/task/{feature}', 'GET /s2s/v2.0/task/{feature}/{task_id}', 'POST /s2s/v2.0/task/delete']
+  - file: perfect-corp-skin-analysis.md
+    name: perfect-corp-skin-analysis
+    summary: >-
+      AI Skin Analysis end to end, including the v2.0/v2.1 split, JSON vs ZIP output, reading
+      raw_score vs ui_score, and the input-quality failure codes.
+    operations: ['POST /s2s/v2.1/task/skin-analysis', 'GET /s2s/v2.1/task/skin-analysis/{task_id}', 'POST /s2s/v2.0/task/fitzpatrick-scale-analyzer']
+  - file: perfect-corp-virtual-try-on.md
+    name: perfect-corp-virtual-try-on
+    summary: >-
+      The try-on family — apparel and accessories under /task/{feature}, jewellery and watches under
+      /task/2d-vto/{item} with item-specific file endpoints — plus the template catalogue and the
+      required `gender` trap.
+    operations: ['POST /s2s/v2.0/file/2d-vto/ring', 'POST /s2s/v2.0/task/2d-vto/ring', 'GET /s2s/v2.0/task/2d-vto/ring/{task_id}']
+  - file: perfect-corp-receive-task-webhook.md
+    name: perfect-corp-receive-task-webhook
+    summary: >-
+      Replace polling with Standard Webhooks task-completion callbacks — signature verification,
+      the header set, deduplicating on webhook-id, and what the payload omits.
+    operations: ['GET /s2s/v2.0/task/{feature}/{task_id}']
+cross_references:
+  conventions: conventions/perfect-corp-conventions.yml
+  errors: errors/perfect-corp-problem-types.yml
+  rate_limits: rate-limits/perfect-corp-rate-limits.yml
+  crosswalk: mcp/perfect-corp-tool-crosswalk.yml

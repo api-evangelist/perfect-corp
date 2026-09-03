@@ -1,0 +1,69 @@
+generated: '2026-09-02'
+method: searched
+source: https://docs.perfectcorp.com/release/changelog, /develop/file_retention_period, /develop/api_server
+name: Perfect Corp YouCam API — lifecycle
+description: >-
+  Perfect Corp ships a dated, well-maintained release train and a clearly stated data-retention
+  policy, but publishes no deprecation policy, no sunset headers, no SLA and no status page. Version
+  transitions are handled by adding a new path version alongside the old one inside the same contract.
+
+versioning:
+  scheme: path + product release train
+  path_versions: [v1.0, v2.0, v2.1]
+  current_product_version: v1.15
+  released: '2026-08-26'
+  note: >-
+    Two version axes. Path versions (/s2s/v2.0/…, /s2s/v2.1/…) version an individual feature and are
+    published side by side — AI Skin Analysis carries both v2.0 and v2.1 in one document, tagged V2.0
+    and V2.1. The v1.15 product version is the release-notes train covering the whole API.
+
+deprecation_policy:
+  published: false
+  url: null
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  deprecated_operations_in_spec: 0
+  note: >-
+    No deprecation or sunset policy is published, no operation in the 178 published operations is
+    marked `deprecated: true`, and the API returns no Deprecation or Sunset header. The legacy V1
+    server-to-server auth flow is still carried in the contracts' securitySchemes with no end-of-life
+    date attached. A consumer has no published notice period.
+
+status_page:
+  published: false
+  url: null
+  note: >-
+    status.perfectcorp.com does not resolve (NXDOMAIN, probed 2026-09-02) and no status or uptime page
+    is linked from the developer documentation, the API console or the product site.
+
+sla:
+  published: false
+  note: No uptime or latency SLA is published on the public developer surface.
+
+data_retention:
+  published: true
+  url: https://docs.perfectcorp.com/develop/file_retention_period
+  uploaded_files: 30 days
+  file_id_validity: 30 days
+  task_id_validity: 30 days
+  result_download_url_validity: 2 hours
+  auto_deletion: All uploaded and generated images and videos are removed after 30 days.
+  manual_deletion: POST /s2s/v2.0/task/delete removes a finished task and its input and output files.
+  warning: >-
+    A result not downloaded within 2 hours of completion is no longer reachable at that URL; re-query
+    the task_id for a fresh link.
+
+changelog:
+  published: true
+  url: https://docs.perfectcorp.com/release/changelog
+  artifact: changelog/perfect-corp-changelog.yml
+  cadence: roughly every 2–6 weeks through 2026
+
+x-evidence:
+  - url: https://docs.perfectcorp.com/release/changelog
+    http_status: 200
+  - url: https://docs.perfectcorp.com/develop/file_retention_period.md
+    http_status: 200
+  - url: https://status.perfectcorp.com/
+    http_status: '<no response> — DNS NXDOMAIN'

@@ -1,0 +1,75 @@
+generated: '2026-09-02'
+method: searched
+source: >-
+  Registry searches against registry.npmjs.org, pypi.org, rubygems.org, crates.io, api.github.com,
+  plus the YouCam developer documentation, the Quick Start Guide and the MCP integration page.
+name: Perfect Corp YouCam API — client packages
+description: >-
+  Perfect Corp publishes NO first-party client SDK for the YouCam API in any package registry. The
+  documented integration path is raw HTTPS with a bearer token, the hosted API Playground for
+  generated snippets, or one of the three hosted MCP servers. This is recorded as a measured absence.
+package_count: 0
+official_package_count: 0
+
+registries_searched:
+  - {registry: npm, query: 'youcam / perfectcorp / perfect-corp', first_party_hits: 0, note: 'Only unrelated third-party packages.'}
+  - {registry: pypi, query: 'youcam / perfectcorp', first_party_hits: 0}
+  - {registry: rubygems, query: 'youcam / perfectcorp', first_party_hits: 0}
+  - {registry: crates.io, query: 'youcam / perfectcorp', first_party_hits: 0}
+  - {registry: maven-central, query: 'perfectcorp / youcam', first_party_hits: 0}
+  - {registry: nuget, query: 'perfectcorp / youcam', first_party_hits: 0}
+
+github:
+  organization: null
+  note: >-
+    There is no api-evangelist-visible Perfect Corp GitHub organization. github.com/perfectcorp
+    resolves to a personal USER account ("darren_liu", created 2018, 0 public repositories) and
+    api.github.com/orgs/perfectcorp returns 404 — so no GitHubOrganization pointer is claimed for this
+    provider. No first-party SDK repository was found.
+
+packages: []
+
+related_but_not_first_party:
+  - name: mcp-remote
+    registry: npm
+    official: false
+    version: null
+    published: null
+    note: >-
+      The Claude Desktop instructions on https://docs.perfectcorp.com/develop/mcp use
+      `npx -y mcp-remote https://mcp-api-01.makeupar.com/mcp/beauty` to bridge stdio to the REMOTE
+      endpoint. mcp-remote is a third-party transport shim, not a Perfect Corp package, so no version
+      is recorded here and mcp/perfect-corp-mcp.yml records deployment mode `remote`, not `both`.
+
+documented_integration_paths:
+  - {path: 'Raw HTTPS + Authorization: Bearer <API key>', url: 'https://docs.perfectcorp.com/develop/quick_start_guide'}
+  - {path: 'API Playground — generates ready-to-use code snippets per feature', url: 'https://yce.perfectcorp.com/api-console/en/api-playground/ai-skin-analysis/'}
+  - {path: 'Hosted MCP servers for MCP-capable clients', url: 'https://docs.perfectcorp.com/develop/mcp'}
+
+other_first_party_software:
+  - name: JS Camera Kit
+    kind: client-side SDK
+    registry: null
+    version: null
+    published: null
+    note: >-
+      Named in the v1.15 release notes ("JS Camera Kit now supports Mongolian UI language"), so it is
+      a real, actively maintained first-party component. It is NOT documented anywhere in the public
+      YouCam API developer documentation and is published to no registry that answers — its
+      distribution appears to be through a commercial engagement rather than a public package. Version
+      is null because there is no public metadata endpoint to read, not because it was not checked.
+
+gaps:
+  - >-
+    No first-party SDK means no dated release signal for this API. The only public decay evidence
+    available for Perfect Corp is the release-notes train (currently v1.15, 2026-08-26).
+
+x-evidence:
+  - url: https://registry.npmjs.org/-/v1/search?text=youcam
+    http_status: 200
+    result: no first-party package
+  - url: https://api.github.com/orgs/perfectcorp
+    http_status: 404
+  - url: https://api.github.com/users/perfectcorp
+    http_status: 200
+    result: personal account, 0 public repositories

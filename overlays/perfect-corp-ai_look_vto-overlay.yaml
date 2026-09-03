@@ -1,0 +1,27 @@
+overlay: 1.0.0
+info:
+  title: apis.io enhancements — AI Look Virtual Try-On
+  version: 1.0.0
+extends: ../openapi/perfect-corp-ai_look_vto-openapi.yml
+x-generated: '2026-09-02'
+x-method: generated
+x-source: openapi/perfect-corp-ai_look_vto-openapi.yml
+x-note: Overlay of API Evangelist observations. The original contract in openapi/ is never mutated.
+actions:
+- target: $.info
+  description: Record where this contract was harvested from and when.
+  update:
+    x-apis-io:
+      harvested: '2026-09-02'
+      source: https://docs.perfectcorp.com/_bundle/reference/ai_look_vto.json?download
+      provider: Perfect Corp
+      slug: perfect-corp
+- target: $.info
+  description: 3 of 3 operations in this document declare no operationId, so no stable identifier exists to reference
+    them by. Recorded, NOT repaired — the pipeline does not author identifiers into a provider contract.
+  update:
+    x-apis-io-findings:
+      operations_without_operationId:
+      - get /s2s/v2.0/task/template/look-vto
+      - post /s2s/v2.0/task/look-vto
+      - get /s2s/v2.0/task/look-vto/{task_id}
