@@ -1,0 +1,64 @@
+name: Perfect Corp
+description: >-
+  Perfect Corp.'s YouCam AI API provides 50+ AI beauty, fashion, jewelry, hair, skin analysis, and generative im
+  age/video features via a RESTful, task-based API. It also offers hosted MCP servers for agent integration and 
+  per-endpoint OpenAPI 3.0.0 contracts.
+url: https://raw.githubusercontent.com/api-evangelist/perfect-corp/refs/heads/main/apis.yml
+created: '2026-09-02'
+modified: '2026-09-02'
+specificationVersion: '0.21'
+tags:
+  - beauty
+  - skincare
+  - cosmetics
+  - fashion
+  - apparel
+  - jewelry
+  - watches
+  - hair
+  - virtual-try-on
+  - image-editing
+  - generative-ai
+  - computer-vision
+  - AR
+  - visual-commerce
+apis:
+  - name: YouCam AI REST API
+    description: >-
+      RESTful asynchronous task-based API for 50+ AI beauty, skin analysis, virtual try-on, and generative image
+       features. Bearer token authenticated; per-endpoint OpenAPI 3.0.0 contracts published.
+    humanURL: https://docs.perfectcorp.com/develop/introduction
+    baseURL: https://yce-api-01.makeupar.com
+    tags:
+      - beauty
+      - skincare
+      - cosmetics
+      - fashion
+      - apparel
+      - jewelry
+      - watches
+      - hair
+      - virtual-try-on
+      - image-editing
+      - generative-ai
+      - computer-vision
+      - AR
+      - visual-commerce
+    properties:
+      - type: Documentation
+        url: https://docs.perfectcorp.com/develop/introduction
+      - type: Documentation
+        url: https://docs.perfectcorp.com/reference/ai_skin_analysis
+      - type: OpenAPI
+        url: https://docs.perfectcorp.com/_bundle/reference/ai_skin_analysis.json?download
+      - type: LLMsTxt
+        url: https://yce.perfectcorp.com/llms.txt
+      - type: MCPServer
+        url: https://mcp-api-01.makeupar.com/mcp/beauty
+      - type: MCPServer
+        url: https://mcp-api-01.makeupar.com/mcp/fashion
+      - type: MCPServer
+        url: https://mcp-api-01.makeupar.com/mcp/creators
+maintainers:
+  - FN: Perfect Corp
+    url: https://perfectcorp.com
