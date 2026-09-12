@@ -383,6 +383,8 @@ maintainers:
   email: YouCamOnlineEditor_API@perfectcorp.com
   url: https://perfectcorp.com
 common:
+- type: Website
+  url: https://www.perfectcorp.com/
 - type: DeveloperPortal
   url: https://yce.perfectcorp.com/ai-api
 - type: Documentation
