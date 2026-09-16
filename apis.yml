@@ -12,6 +12,31 @@ created: '2026-09-02'
 modified: '2026-09-02'
 specificationVersion: '0.21'
 tags:
+- Beauty
+- Skincare
+- Cosmetics
+- Fashion
+- Apparel
+- Jewelry
+- Watches
+- hair
+- Virtual Try-On
+- Image Editing
+- Generative AI
+- Computer-Vision
+- AR
+- visual-commerce
+- Artificial Intelligence
+- Machine-Learning
+- Video Generation
+- skin-analysis
+- MCP
+- Agents
+- Photo Editing
+- Beauty Tech
+- Retail
+- ar-try-on
+tags_raw:
 - beauty
 - skincare
 - cosmetics
@@ -37,31 +62,56 @@ tags:
 - retail
 - ar-try-on
 apis:
-- name: YouCam AI REST API
-  description: 'Asynchronous, task-based REST API for 60+ AI features — skin and face analysis, hair and beard,
-    body reshaping, makeup and nail virtual try-on, apparel, footwear, jewellery and watch try-on, image generation
-    and editing, and video generation, enhancement and style transfer. Every feature follows the same pattern: two-phase
-    file upload, task creation, polling or a Standard Webhooks callback, then a result URL valid for two hours.
-    Bearer-token authenticated; 65 per-feature OpenAPI 3.0.0 contracts covering 178 operations are published for
-    download from the docs host.'
+- name: YouCam MCP Servers
+  description: >-
+    Three hosted, remote Model Context Protocol servers fronting the YouCam AI API, split by solution
+    category — Beauty & Skin Care (47 tools), Fashion & Retail (18 tools) and Creators (34 tools). All
+    three speak Streamable HTTP at protocol version 2025-06-18 and answer initialize and tools/list anonymously,
+    so the full tool set with per-tool JSON Schema is publicly readable; invocation uses the same API
+    key bearer token as the REST API.
+  humanURL: https://docs.perfectcorp.com/develop/mcp
+  baseURL: https://mcp-api-01.makeupar.com
+  tags:
+  - MCP
+  - Agents
+  - Beauty
+  - Fashion
+  - Virtual Try-On
+  - Generative AI
+  tags_raw:
+  - mcp
+  - agents
+  - beauty
+  - fashion
+  - virtual-try-on
+  - generative-ai
+  properties:
+  - type: MCPServer
+    url: mcp/perfect-corp-mcp.yml
+  - type: ToolCrosswalk
+    url: mcp/perfect-corp-tool-crosswalk.yml
+  - type: MCPServer
+    url: https://mcp-api-01.makeupar.com/mcp/beauty
+  - type: MCPServer
+    url: https://mcp-api-01.makeupar.com/mcp/fashion
+  - type: MCPServer
+    url: https://mcp-api-01.makeupar.com/mcp/creators
+  - type: Documentation
+    url: https://docs.perfectcorp.com/develop/mcp
+  - type: Authentication
+    url: authentication/perfect-corp-authentication.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+- aid: perfect-corp:perfect-corp-s2s-api
+  name: Perfect Corp S2s API
+  description: The S2s API from Perfect Corp — 5 operation(s) for s2s.
   humanURL: https://docs.perfectcorp.com/develop/introduction
   baseURL: https://yce-api-01.makeupar.com
   tags:
-  - beauty
-  - skincare
-  - cosmetics
-  - fashion
-  - apparel
-  - jewelry
-  - watches
-  - hair
-  - virtual-try-on
-  - image-editing
-  - generative-ai
-  - computer-vision
-  - AR
-  - visual-commerce
+  - S2s
   properties:
+  - type: OpenAPI
+    url: openapi/perfect-corp-s2s-api-openapi.yml
   - type: Documentation
     url: https://docs.perfectcorp.com/develop/introduction
   - type: APIReference
@@ -86,303 +136,319 @@ apis:
     url: sandbox/perfect-corp-sandbox.yml
   - type: OAuthScopes
     url: scopes/perfect-corp-scopes.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_abs_filter-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_aging_simulation-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_avatar_generator-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_background_removal-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_bag-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_bangs-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_beard_style-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_body_reshape-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_bracelet-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_breast_augmentation-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_clothes-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_color_correction-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_earrings-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_eye_color_lens-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_fabric-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_face_analyzer-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_face_lift-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_face_reshape-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_face_swap-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_fitzpatrick_skin_type-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_hair_color-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_hair_density_detection-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_hair_extension-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_hair_frizziness_detection-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_hair_length_detection-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_hair_type_detection-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_hair_volume-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_hairstyle-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_hat-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_headshot_generator-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_image_extender-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_image_generator-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_look_vto-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_makeup_transfer-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_nail_transfer-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_nail_vto-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_necklace-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_object_removal_pro-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_photo_background_blur-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_photo_background_change-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_photo_colorize-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_photo_enhance-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_photo_lighting-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_replace-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_scarf-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_shoes-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_skin_analysis-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_skin_simulation-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_skin_tone_analysis-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_smile-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_studio_generator-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_teeth_whitening-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_video_background_replace-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_video_enhancer-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_video_face_swap-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_video_generator-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_video_object_removal-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_video_style_transfer-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_watch-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ai_wavy_hair-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-file-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-makeup_vto-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-ring_vto-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-task_management-openapi.yml
-  - type: OpenAPI
-    url: openapi/perfect-corp-unit_system-openapi.yml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_abs_filter-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_aging_simulation-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_avatar_generator-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_background_removal-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_bag-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_bangs-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_beard_style-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_body_reshape-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_bracelet-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_breast_augmentation-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_clothes-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_color_correction-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_earrings-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_eye_color_lens-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_fabric-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_face_analyzer-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_face_lift-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_face_reshape-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_face_swap-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_fitzpatrick_skin_type-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_hair_color-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_hair_density_detection-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_hair_extension-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_hair_frizziness_detection-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_hair_length_detection-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_hair_type_detection-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_hair_volume-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_hairstyle-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_hat-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_headshot_generator-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_image_extender-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_image_generator-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_look_vto-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_makeup_transfer-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_nail_transfer-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_nail_vto-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_necklace-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_object_removal_pro-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_photo_background_blur-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_photo_background_change-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_photo_colorize-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_photo_enhance-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_photo_lighting-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_replace-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_scarf-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_shoes-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_skin_analysis-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_skin_simulation-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_skin_tone_analysis-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_smile-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_studio_generator-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_teeth_whitening-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_video_background_replace-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_video_enhancer-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_video_face_swap-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_video_generator-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_video_object_removal-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_video_style_transfer-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_watch-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ai_wavy_hair-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-file-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-makeup_vto-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-ring_vto-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-task_management-overlay.yaml
-  - type: Overlay
-    url: overlays/perfect-corp-unit_system-overlay.yaml
-- name: YouCam MCP Servers
-  description: Three hosted, remote Model Context Protocol servers fronting the YouCam AI API, split by solution
-    category — Beauty & Skin Care (47 tools), Fashion & Retail (18 tools) and Creators (34 tools). All three speak
-    Streamable HTTP at protocol version 2025-06-18 and answer initialize and tools/list anonymously, so the full
-    tool set with per-tool JSON Schema is publicly readable; invocation uses the same API key bearer token as the
-    REST API.
-  humanURL: https://docs.perfectcorp.com/develop/mcp
-  baseURL: https://mcp-api-01.makeupar.com
+- aid: perfect-corp:perfect-corp-v1-0-api
+  name: Perfect Corp V1.0 API
+  description: >-
+    Transform your upper-body photo with AI-generated six-pack abs using the AI Abs Filter API.
+  humanURL: https://docs.perfectcorp.com/develop/introduction
+  baseURL: https://yce-api-01.makeupar.com
   tags:
-  - mcp
-  - agents
-  - beauty
-  - fashion
-  - virtual-try-on
-  - generative-ai
+  - V1.0
   properties:
-  - type: MCPServer
-    url: mcp/perfect-corp-mcp.yml
-  - type: ToolCrosswalk
-    url: mcp/perfect-corp-tool-crosswalk.yml
-  - type: MCPServer
-    url: https://mcp-api-01.makeupar.com/mcp/beauty
-  - type: MCPServer
-    url: https://mcp-api-01.makeupar.com/mcp/fashion
-  - type: MCPServer
-    url: https://mcp-api-01.makeupar.com/mcp/creators
+  - type: OpenAPI
+    url: openapi/perfect-corp-v1-0-api-openapi.yml
   - type: Documentation
-    url: https://docs.perfectcorp.com/develop/mcp
+    url: https://docs.perfectcorp.com/develop/introduction
+  - type: APIReference
+    url: https://docs.perfectcorp.com/reference/ai_skin_analysis
+  - type: GettingStarted
+    url: https://docs.perfectcorp.com/develop/quick_start_guide
   - type: Authentication
     url: authentication/perfect-corp-authentication.yml
-  - type: AgentSkill
-    url: skills/_index.yml
+  - type: Conventions
+    url: conventions/perfect-corp-conventions.yml
+  - type: Idempotency
+    url: conventions/perfect-corp-conventions.yml
+  - type: ErrorCatalog
+    url: errors/perfect-corp-problem-types.yml
+  - type: DataModel
+    url: data-model/perfect-corp-data-model.yml
+  - type: RateLimits
+    url: rate-limits/perfect-corp-rate-limits.yml
+  - type: Webhooks
+    url: asyncapi/perfect-corp-webhooks.yml
+  - type: Sandbox
+    url: sandbox/perfect-corp-sandbox.yml
+  - type: OAuthScopes
+    url: scopes/perfect-corp-scopes.yml
+- aid: perfect-corp:perfect-corp-v2-0-api
+  name: Perfect Corp V2.0 API
+  description: The V2.0 API from Perfect Corp — 32 operation(s) for v2.0.
+  humanURL: https://docs.perfectcorp.com/develop/introduction
+  baseURL: https://yce-api-01.makeupar.com
+  tags:
+  - V2.0
+  properties:
+  - type: OpenAPI
+    url: openapi/perfect-corp-v2-0-api-openapi.yml
+  - type: Documentation
+    url: https://docs.perfectcorp.com/develop/introduction
+  - type: APIReference
+    url: https://docs.perfectcorp.com/reference/ai_skin_analysis
+  - type: GettingStarted
+    url: https://docs.perfectcorp.com/develop/quick_start_guide
+  - type: Authentication
+    url: authentication/perfect-corp-authentication.yml
+  - type: Conventions
+    url: conventions/perfect-corp-conventions.yml
+  - type: Idempotency
+    url: conventions/perfect-corp-conventions.yml
+  - type: ErrorCatalog
+    url: errors/perfect-corp-problem-types.yml
+  - type: DataModel
+    url: data-model/perfect-corp-data-model.yml
+  - type: RateLimits
+    url: rate-limits/perfect-corp-rate-limits.yml
+  - type: Webhooks
+    url: asyncapi/perfect-corp-webhooks.yml
+  - type: Sandbox
+    url: sandbox/perfect-corp-sandbox.yml
+  - type: OAuthScopes
+    url: scopes/perfect-corp-scopes.yml
+- aid: perfect-corp:perfect-corp-v2-1-api
+  name: Perfect Corp V2.1 API
+  description: >-
+    Powered by updated AI technology and new style templates, the platform can create new hairstyles,
+    apply specific template‑based looks, and transfer styles from user‑provided reference images.
+  humanURL: https://docs.perfectcorp.com/develop/introduction
+  baseURL: https://yce-api-01.makeupar.com
+  tags:
+  - V2.1
+  properties:
+  - type: OpenAPI
+    url: openapi/perfect-corp-v2-1-api-openapi.yml
+  - type: Documentation
+    url: https://docs.perfectcorp.com/develop/introduction
+  - type: APIReference
+    url: https://docs.perfectcorp.com/reference/ai_skin_analysis
+  - type: GettingStarted
+    url: https://docs.perfectcorp.com/develop/quick_start_guide
+  - type: Authentication
+    url: authentication/perfect-corp-authentication.yml
+  - type: Conventions
+    url: conventions/perfect-corp-conventions.yml
+  - type: Idempotency
+    url: conventions/perfect-corp-conventions.yml
+  - type: ErrorCatalog
+    url: errors/perfect-corp-problem-types.yml
+  - type: DataModel
+    url: data-model/perfect-corp-data-model.yml
+  - type: RateLimits
+    url: rate-limits/perfect-corp-rate-limits.yml
+  - type: Webhooks
+    url: asyncapi/perfect-corp-webhooks.yml
+  - type: Sandbox
+    url: sandbox/perfect-corp-sandbox.yml
+  - type: OAuthScopes
+    url: scopes/perfect-corp-scopes.yml
+- aid: perfect-corp:perfect-corp-v3-0-api
+  name: Perfect Corp V3.0 API
+  description: >-
+    AI Avatar Generator API allows you to generate avatars from a source image using predefined templates
+    and output count settings.
+  humanURL: https://docs.perfectcorp.com/develop/introduction
+  baseURL: https://yce-api-01.makeupar.com
+  tags:
+  - V3.0
+  properties:
+  - type: OpenAPI
+    url: openapi/perfect-corp-v3-0-api-openapi.yml
+  - type: Documentation
+    url: https://docs.perfectcorp.com/develop/introduction
+  - type: APIReference
+    url: https://docs.perfectcorp.com/reference/ai_skin_analysis
+  - type: GettingStarted
+    url: https://docs.perfectcorp.com/develop/quick_start_guide
+  - type: Authentication
+    url: authentication/perfect-corp-authentication.yml
+  - type: Conventions
+    url: conventions/perfect-corp-conventions.yml
+  - type: Idempotency
+    url: conventions/perfect-corp-conventions.yml
+  - type: ErrorCatalog
+    url: errors/perfect-corp-problem-types.yml
+  - type: DataModel
+    url: data-model/perfect-corp-data-model.yml
+  - type: RateLimits
+    url: rate-limits/perfect-corp-rate-limits.yml
+  - type: Webhooks
+    url: asyncapi/perfect-corp-webhooks.yml
+  - type: Sandbox
+    url: sandbox/perfect-corp-sandbox.yml
+  - type: OAuthScopes
+    url: scopes/perfect-corp-scopes.yml
+- aid: perfect-corp:perfect-corp-v4-0-api
+  name: Perfect Corp V4.0 API
+  description: >-
+    Enhanced capabilities to include virtual try-on for outerwear, including jackets and vests. You can
+    now choose from Full Body, Upper Body, Lower Body, Shoes, or Outerwear for virtual try-on, or simply
+    select Auto and let the AI engine create the perfect outfit for you.
+  humanURL: https://docs.perfectcorp.com/develop/introduction
+  baseURL: https://yce-api-01.makeupar.com
+  tags:
+  - V4.0
+  properties:
+  - type: OpenAPI
+    url: openapi/perfect-corp-v4-0-api-openapi.yml
+  - type: Documentation
+    url: https://docs.perfectcorp.com/develop/introduction
+  - type: APIReference
+    url: https://docs.perfectcorp.com/reference/ai_skin_analysis
+  - type: GettingStarted
+    url: https://docs.perfectcorp.com/develop/quick_start_guide
+  - type: Authentication
+    url: authentication/perfect-corp-authentication.yml
+  - type: Conventions
+    url: conventions/perfect-corp-conventions.yml
+  - type: Idempotency
+    url: conventions/perfect-corp-conventions.yml
+  - type: ErrorCatalog
+    url: errors/perfect-corp-problem-types.yml
+  - type: DataModel
+    url: data-model/perfect-corp-data-model.yml
+  - type: RateLimits
+    url: rate-limits/perfect-corp-rate-limits.yml
+  - type: Webhooks
+    url: asyncapi/perfect-corp-webhooks.yml
+  - type: Sandbox
+    url: sandbox/perfect-corp-sandbox.yml
+  - type: OAuthScopes
+    url: scopes/perfect-corp-scopes.yml
 maintainers:
 - FN: Perfect Corp
   email: YouCamOnlineEditor_API@perfectcorp.com
   url: https://perfectcorp.com
 common:
+- type: Overlay
+  url: overlays/perfect-corp-ai_abs_filter-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_aging_simulation-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_avatar_generator-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_background_removal-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_bag-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_bangs-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_beard_style-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_body_reshape-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_bracelet-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_breast_augmentation-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_clothes-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_color_correction-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_earrings-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_eye_color_lens-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_fabric-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_face_analyzer-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_face_lift-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_face_reshape-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_face_swap-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_fitzpatrick_skin_type-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_hair_color-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_hair_density_detection-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_hair_extension-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_hair_frizziness_detection-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_hair_length_detection-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_hair_type_detection-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_hair_volume-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_hairstyle-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_hat-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_headshot_generator-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_image_extender-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_image_generator-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_look_vto-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_makeup_transfer-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_nail_transfer-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_nail_vto-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_necklace-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_object_removal_pro-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_photo_background_blur-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_photo_background_change-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_photo_colorize-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_photo_enhance-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_photo_lighting-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_replace-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_scarf-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_shoes-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_skin_analysis-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_skin_simulation-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_skin_tone_analysis-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_smile-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_studio_generator-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_teeth_whitening-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_video_background_replace-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_video_enhancer-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_video_face_swap-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_video_generator-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_video_object_removal-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_video_style_transfer-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_watch-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ai_wavy_hair-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-file-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-makeup_vto-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-ring_vto-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-task_management-overlay.yaml
+- type: Overlay
+  url: overlays/perfect-corp-unit_system-overlay.yaml
 - type: Website
   url: https://www.perfectcorp.com/
 - type: DeveloperPortal
