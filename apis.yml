@@ -108,6 +108,8 @@ apis:
   humanURL: https://docs.perfectcorp.com/develop/introduction
   baseURL: https://yce-api-01.makeupar.com
   tags:
+  - S2S
+  tags_raw:
   - S2s
   properties:
   - type: OpenAPI
