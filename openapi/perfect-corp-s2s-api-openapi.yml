@@ -1,0 +1,524 @@
+openapi: 3.2.0
+info:
+  title: Perfect Corp S2s API
+  version: ''
+  contact:
+    email: YouCamOnlineEditor_API@perfectcorp.com
+  license:
+    name: Privacy policy
+    url: https://www.makeupar.com/perfectbeauty/youcam/privacy-policy-api
+  termsOfService: https://www.makeupar.com/perfectbeauty/youcam/terms-of-service-api
+  description: 'Operations tagged S2s across 3 of this provider''s published API definitions: perfect-corp-file-openapi.yml, perfect-corp-task_management-openapi.yml, perfect-corp-unit_system-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://yce-api-01.makeupar.com
+tags:
+- name: S2s
+paths:
+  /s2s/v2.0/file:
+    post:
+      summary: Create a new file
+      description: To upload a new file, you'll first need to use the File API. It will give you a URL – use that URL to upload your file. Once the upload is finished, you can use the file_id from the same response to start using our AI features.
+      security:
+      - BearerAuthenticationV2: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/FileV1.1'
+      responses:
+        '200':
+          description: Successful retrieval of file upload information
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/FileResponseV2'
+        '400':
+          $ref: '#/components/responses/InvalidParameters'
+        '401':
+          $ref: '#/components/responses/InvalidApiKey'
+      tags:
+      - S2s
+      operationId: postS2sV20File
+      x-operation-id-source: derived
+    servers:
+    - url: https://yce-api-01.makeupar.com
+  /s2s/v2.0/task/delete:
+    post:
+      summary: Delete a task and its files
+      description: Delete a finished task identified by task_id, including all associated input files and generated outputs. Provide the `task_id` returned by the task's run endpoint.
+      security:
+      - BearerAuthenticationV2: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - task_id
+              properties:
+                task_id:
+                  type: string
+                  description: The task id returned by the task's run endpoint.
+                  example: grH0CvsgXuAIHLUzD0V1Ol34hoet3R1tvdbtiVHrDb6_UqCLKIejAIajwxrhOAfe
+      responses:
+        '200':
+          description: The task and its files were deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: Response status
+                    example: 200
+        '400':
+          description: Failed to delete the task
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/responses/DeleteTaskError'
+        '401':
+          $ref: '#/components/responses/InvalidApiKey'
+      tags:
+      - S2s
+      operationId: postS2sV20TaskDelete
+      x-operation-id-source: derived
+    servers:
+    - url: https://yce-api-01.makeupar.com
+  /s2s/v1.0/client/credit:
+    get:
+      summary: Get unit info
+      description: Display the available API units to two decimal places
+      security:
+      - BearerAuthentication: []
+      responses:
+        '200':
+          description: Successful retrieval of unit info
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: Response status
+                    example: 200
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: Unique identifier of this unit
+                          example: 13105541279084536
+                        type:
+                          type: string
+                          enum:
+                          - ApiSubsToken
+                          - ApiPaygToken
+                          description: Type of this unit
+                        amount:
+                          deprecated: true
+                          type: integer
+                          description: This paramenter is deprecated. Use amount_dec instead. Current unit balance.
+                          example: 10
+                        amount_dec:
+                          type: number
+                          description: Remaining units displayed to two decimal places.
+                          example: 10.04
+                        expiry:
+                          type: integer
+                          description: Unix timestamp of the expiry of this unit (ms)
+                          example: 1704789135000
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      tags:
+      - S2s
+      operationId: getS2sV10ClientCredit
+      x-operation-id-source: derived
+    servers:
+    - url: https://yce-api-01.makeupar.com
+  /s2s/v1.0/client/credit/history:
+    get:
+      summary: View unit history
+      security:
+      - BearerAuthentication: []
+      parameters:
+      - name: page_size
+        in: query
+        schema:
+          type: integer
+          example: 20
+        description: Number of results to return in a page. Valid value should be between 1 and 30. Default 20.
+      - name: starting_token
+        in: query
+        schema:
+          type: string
+          example: 73a3c9e69b89
+        description: Token for current page. Start with `null` for the first page, and use `next_token` from the previous response to start next page
+      responses:
+        '200':
+          description: Successful retrieval of the unit usage history
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                    description: Response status
+                  result:
+                    type: object
+                    properties:
+                      next_token:
+                        type: string
+                        example: 73a3c9e69b89
+                        description: Token to query next page.
+                      history:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              example: 38173479337460984
+                              description: Unique identifier of the history
+                            timestamp:
+                              type: integer
+                              example: 1703146067000
+                              description: Unix timestamp of the history (ms)
+                            action:
+                              type: string
+                              example: photo_enhance
+                              enum:
+                              - photo_enhance
+                              - api_photo_enhance
+                              - object_removal
+                              - api_object_removal
+                              - background_removal
+                              - api_background_removal
+                              - colorize
+                              - api_colorize
+                              - text_to_image
+                              - api_text_to_image
+                              - hair_style
+                              - api_hair_style
+                              - blur_background
+                              - change_background
+                              - wig
+                              - trial_gift_text_to_image
+                              - sign_up_gift
+                              - subscription_credits
+                              - subscriber_gift
+                              - permanent_credits
+                              - compensation_from_customer_service
+                              - renew
+                              - expire
+                              description: Action of this history
+                            target_id:
+                              type: string
+                              example: 7TWFkuE2Z9uR0NOxSmQ1rh4PJ5Zx7YJ5U9SAz51q0QHVwMP+Jb1XbjPsf7ZgUgLY
+                              description: Id of the target for this unit. For example, when running AI Photo Enhance task, `target_id` for this history will be `task_id` of the AI Photo Enhance task. When purchasing unit, the `target_id` for this history will be `order_id`
+                            info:
+                              type: object
+                              properties:
+                                credits:
+                                  type: array
+                                  example:
+                                  - id: 24409059381740548
+                                    amount: -2
+                                  - id: 27297116883780870
+                                    amount: 0
+                                  description: Detailed information for each unit
+                                  items:
+                                    type: object
+                                    properties:
+                                      id:
+                                        type: integer
+                                        description: Id of the unit
+                                      amount:
+                                        deprecated: true
+                                        type: integer
+                                        description: This paramenter is deprecated. Use amount_dec instead. Total amount changed from this unit.
+                                      amount_dec:
+                                        type: number
+                                        description: The net change in units recorded, presented to two decimal places.
+                                dst_actions:
+                                  type: array
+                                  description: The dst_actions of skin analysis
+                                  items:
+                                    type: string
+                                  example: '[ "hd_wrinkle", "hd_pore", "hd_texture" ]'
+        '400':
+          $ref: '#/components/responses/InvalidParameters'
+        '401':
+          $ref: '#/components/responses/InvalidAccessToken'
+      tags:
+      - S2s
+      operationId: getS2sV10ClientCreditHistory
+      x-operation-id-source: derived
+    servers:
+    - url: https://yce-api-01.makeupar.com
+  /s2s/v2.0/credit/feature-cost:
+    get:
+      summary: Get feature cost
+      description: Check the unit consumption for each API. The values are consistent with those listed at https://yce.perfectcorp.com/ai-api/api-pricing.
+      security:
+      - BearerAuthenticationV2: []
+      parameters:
+      - name: page_size
+        in: query
+        schema:
+          type: integer
+          example: 20
+          minimum: 1
+          maximum: 20
+        description: 'Number of results to return in a page. Default 20. value range: [1 - 20]'
+      - name: starting_token
+        in: query
+        schema:
+          type: string
+          example: MjA
+        description: Token for current page. Start with `null` for the first page, and use `next_token` from the previous response to start next page
+      responses:
+        '200':
+          description: Successful retrieval of the feature cost by sku
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                    description: Response status
+                  result:
+                    type: object
+                    properties:
+                      next_token:
+                        type: string
+                        example: MjA
+                        description: Token to query next page. `null` when there are no more pages.
+                      skus:
+                        type: array
+                        description: List of the skus
+                        items:
+                          type: object
+                          properties:
+                            description:
+                              type: string
+                              example: AI Skin Analysis for SD 1~4 concerns
+                              description: Description of the sku
+                            amount:
+                              type: number
+                              example: 9
+                              description: Units consumed per `proc_unit`
+                            unit:
+                              type: string
+                              enum:
+                              - result_image
+                              - second
+                              example: result_image
+                              description: Measurement unit of the cost
+                            proc_unit:
+                              type: integer
+                              example: 1
+                              description: Number of `unit`s included in one charge of `amount`
+                            run_task_url:
+                              type: string
+                              example: https://yce-api-01.makeupar.com/s2s/v2.0/task/skin-analysis
+                              description: Full URL of the task endpoint that consumes this sku
+              example:
+                status: 200
+                result:
+                  next_token: MjA
+                  skus:
+                  - description: AI Skin Analysis for SD 1~4 concerns
+                    amount: 9
+                    unit: result_image
+                    proc_unit: 1
+                    run_task_url: https://yce-api-01.makeupar.com/s2s/v2.0/task/skin-analysis
+                  - description: AI Skin Analysis for SD 5~7 concerns
+                    amount: 12
+                    unit: result_image
+                    proc_unit: 1
+                    run_task_url: https://yce-api-01.makeupar.com/s2s/v2.0/task/skin-analysis
+        '400':
+          $ref: '#/components/responses/InvalidParameters'
+        '401':
+          $ref: '#/components/responses/InvalidApiKey'
+      tags:
+      - S2s
+      operationId: getS2sV20CreditFeatureCost
+      x-operation-id-source: derived
+    servers:
+    - url: https://yce-api-01.makeupar.com
+components:
+  schemas:
+    FileResponseV2:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 200
+          description: Response status
+        data: null
+      $ref: '#/components/schemas/BasicFileResponse'
+    BasicFileResponse:
+      type: object
+      properties:
+        files:
+          type: array
+          items:
+            type: object
+            properties:
+              content_type:
+                type: string
+                example: image/jpg
+                description: Content MIME type for this file.
+              file_name:
+                type: string
+                example: my-selfie.jpg
+                description: Name of this file
+              file_id:
+                type: string
+                example: U8aqJbsXGT537jtGnEDFHqxdDXqh8+oTF/cSkLimzuvVwMP+Jb1XbjPsf7ZgUgLY
+                description: ID of this file. Other run task API will need this \`file_id\`.
+              requests:
+                type: array
+                description: Using upload \`url\`, \`headers\`, \`method\` below to upload file. After completion, the \`file_id\` is used to proceed with calling run task API.
+                items:
+                  type: object
+                  properties:
+                    headers:
+                      type: object
+                      example:
+                        Content-Type: image/jpg
+                        Content-Length: 50000
+                      description: Headers to include when uploading the file
+                    url:
+                      type: string
+                      example: https://example.com/presigned-upload-url
+                      description: URL to upload this file
+                    method:
+                      type: string
+                      example: PUT
+                      description: HTTP method to upload this file
+    FileV1.1:
+      title: File V1.1
+      description: This object represents a file.
+      type: object
+      required:
+      - files
+      properties:
+        files:
+          type: array
+          items:
+            type: object
+            required:
+            - content_type
+            - file_name
+            - file_size
+            properties:
+              content_type:
+                type: string
+                example: image/jpg
+                description: Specifies the file's content MIME type. Supported values currently include image and video formats, such as image/jpg and video/mp4.
+              file_name:
+                type: string
+                example: my-selfie.jpg
+                description: Name of this file
+              file_size:
+                type: integer
+                example: 50000
+                description: File size in bytes. Supported limits are 10 MB for image files and 100 MB for video files.
+  responses:
+    InvalidApiKey:
+      description: Invalid or missing API key
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 401
+                description: Response status
+              error:
+                type: string
+                example: Invalid API key
+    InvalidParameters:
+      description: Invalid request parameters
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+                description: Response status
+              error:
+                type: string
+                example: Invalid parameter value
+              error_code:
+                type: string
+                example: InvalidParameters
+    DeleteTaskError:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: Response status
+          example: 400
+        error:
+          type: string
+          description: Error message
+          example: Operation not supported
+        error_code:
+          type: string
+          enum:
+          - OperationNotSupport
+          - OperationInvalid
+          - InvalidTaskId
+          - InvalidParameters
+          description: "Error code:\n  * OperationNotSupport - The provided task_id is not accepted; use the task_id returned by the run endpoint\n  * OperationInvalid - The task has not finished yet and cannot be deleted\n  * InvalidTaskId - The task_id is malformed or no matching task was found\n  * InvalidParameters - task_id is missing\n"
+    InvalidAccessToken:
+      description: Invalid access token
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 401
+                description: Response status
+              error_code:
+                type: string
+                enum:
+                - InvalidAccessToken
+                description: "Error code:\n  * InvalidAccessToken - Access token is not given or not valid\n"
+    Unauthorized:
+      description: Authentication failed or user does not have necessary permissions
+  securitySchemes:
+    BearerAuthenticationV2:
+      type: http
+      scheme: bearer
+      description: 'Use the standard ''Bearer authentication''. Put your ''API Key'' in header: `Authorization:Bearer YOUR_API_KEY`. Notice that there is '' '' a space between ''Bearer'' and the ''YOUR_API_KEY''.'
+    BearerAuthentication:
+      type: http
+      scheme: bearer
+      description: 'Use the `access_token` obtained from authentication and pass it in header: `Authorization:Bearer <access_token>`'
+x-refined-from:
+- perfect-corp-file-openapi.yml
+- perfect-corp-task_management-openapi.yml
+- perfect-corp-unit_system-openapi.yml
