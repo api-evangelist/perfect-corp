@@ -23,11 +23,11 @@ tags:
 - Virtual Try-On
 - Image Editing
 - Generative AI
-- Computer-Vision
+- Computer Vision
 - AR
 - visual-commerce
 - Artificial Intelligence
-- Machine-Learning
+- Machine Learning
 - Video Generation
 - skin-analysis
 - MCP
@@ -36,6 +36,7 @@ tags:
 - Beauty Tech
 - Retail
 - ar-try-on
+- A2A
 tags_raw:
 - beauty
 - skincare
@@ -61,6 +62,9 @@ tags_raw:
 - beauty-tech
 - retail
 - ar-try-on
+- Computer-Vision
+- Machine-Learning
+- A2A
 apis:
 - name: YouCam MCP Servers
   description: >-
@@ -114,184 +118,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/perfect-corp-s2s-api-openapi.yml
-  - type: Documentation
-    url: https://docs.perfectcorp.com/develop/introduction
-  - type: APIReference
-    url: https://docs.perfectcorp.com/reference/ai_skin_analysis
-  - type: GettingStarted
-    url: https://docs.perfectcorp.com/develop/quick_start_guide
-  - type: Authentication
-    url: authentication/perfect-corp-authentication.yml
-  - type: Conventions
-    url: conventions/perfect-corp-conventions.yml
-  - type: Idempotency
-    url: conventions/perfect-corp-conventions.yml
-  - type: ErrorCatalog
-    url: errors/perfect-corp-problem-types.yml
-  - type: DataModel
-    url: data-model/perfect-corp-data-model.yml
-  - type: RateLimits
-    url: rate-limits/perfect-corp-rate-limits.yml
-  - type: Webhooks
-    url: asyncapi/perfect-corp-webhooks.yml
-  - type: Sandbox
-    url: sandbox/perfect-corp-sandbox.yml
-  - type: OAuthScopes
-    url: scopes/perfect-corp-scopes.yml
-- aid: perfect-corp:perfect-corp-v1-0-api
-  name: Perfect Corp V1.0 API
-  description: >-
-    Transform your upper-body photo with AI-generated six-pack abs using the AI Abs Filter API.
-  humanURL: https://docs.perfectcorp.com/develop/introduction
-  baseURL: https://yce-api-01.makeupar.com
-  tags:
-  - V1.0
-  properties:
-  - type: OpenAPI
-    url: openapi/perfect-corp-v1-0-api-openapi.yml
-  - type: Documentation
-    url: https://docs.perfectcorp.com/develop/introduction
-  - type: APIReference
-    url: https://docs.perfectcorp.com/reference/ai_skin_analysis
-  - type: GettingStarted
-    url: https://docs.perfectcorp.com/develop/quick_start_guide
-  - type: Authentication
-    url: authentication/perfect-corp-authentication.yml
-  - type: Conventions
-    url: conventions/perfect-corp-conventions.yml
-  - type: Idempotency
-    url: conventions/perfect-corp-conventions.yml
-  - type: ErrorCatalog
-    url: errors/perfect-corp-problem-types.yml
-  - type: DataModel
-    url: data-model/perfect-corp-data-model.yml
-  - type: RateLimits
-    url: rate-limits/perfect-corp-rate-limits.yml
-  - type: Webhooks
-    url: asyncapi/perfect-corp-webhooks.yml
-  - type: Sandbox
-    url: sandbox/perfect-corp-sandbox.yml
-  - type: OAuthScopes
-    url: scopes/perfect-corp-scopes.yml
-- aid: perfect-corp:perfect-corp-v2-0-api
-  name: Perfect Corp V2.0 API
-  description: The V2.0 API from Perfect Corp — 32 operation(s) for v2.0.
-  humanURL: https://docs.perfectcorp.com/develop/introduction
-  baseURL: https://yce-api-01.makeupar.com
-  tags:
-  - V2.0
-  properties:
-  - type: OpenAPI
-    url: openapi/perfect-corp-v2-0-api-openapi.yml
-  - type: Documentation
-    url: https://docs.perfectcorp.com/develop/introduction
-  - type: APIReference
-    url: https://docs.perfectcorp.com/reference/ai_skin_analysis
-  - type: GettingStarted
-    url: https://docs.perfectcorp.com/develop/quick_start_guide
-  - type: Authentication
-    url: authentication/perfect-corp-authentication.yml
-  - type: Conventions
-    url: conventions/perfect-corp-conventions.yml
-  - type: Idempotency
-    url: conventions/perfect-corp-conventions.yml
-  - type: ErrorCatalog
-    url: errors/perfect-corp-problem-types.yml
-  - type: DataModel
-    url: data-model/perfect-corp-data-model.yml
-  - type: RateLimits
-    url: rate-limits/perfect-corp-rate-limits.yml
-  - type: Webhooks
-    url: asyncapi/perfect-corp-webhooks.yml
-  - type: Sandbox
-    url: sandbox/perfect-corp-sandbox.yml
-  - type: OAuthScopes
-    url: scopes/perfect-corp-scopes.yml
-- aid: perfect-corp:perfect-corp-v2-1-api
-  name: Perfect Corp V2.1 API
-  description: >-
-    Powered by updated AI technology and new style templates, the platform can create new hairstyles,
-    apply specific template‑based looks, and transfer styles from user‑provided reference images.
-  humanURL: https://docs.perfectcorp.com/develop/introduction
-  baseURL: https://yce-api-01.makeupar.com
-  tags:
-  - V2.1
-  properties:
-  - type: OpenAPI
-    url: openapi/perfect-corp-v2-1-api-openapi.yml
-  - type: Documentation
-    url: https://docs.perfectcorp.com/develop/introduction
-  - type: APIReference
-    url: https://docs.perfectcorp.com/reference/ai_skin_analysis
-  - type: GettingStarted
-    url: https://docs.perfectcorp.com/develop/quick_start_guide
-  - type: Authentication
-    url: authentication/perfect-corp-authentication.yml
-  - type: Conventions
-    url: conventions/perfect-corp-conventions.yml
-  - type: Idempotency
-    url: conventions/perfect-corp-conventions.yml
-  - type: ErrorCatalog
-    url: errors/perfect-corp-problem-types.yml
-  - type: DataModel
-    url: data-model/perfect-corp-data-model.yml
-  - type: RateLimits
-    url: rate-limits/perfect-corp-rate-limits.yml
-  - type: Webhooks
-    url: asyncapi/perfect-corp-webhooks.yml
-  - type: Sandbox
-    url: sandbox/perfect-corp-sandbox.yml
-  - type: OAuthScopes
-    url: scopes/perfect-corp-scopes.yml
-- aid: perfect-corp:perfect-corp-v3-0-api
-  name: Perfect Corp V3.0 API
-  description: >-
-    AI Avatar Generator API allows you to generate avatars from a source image using predefined templates
-    and output count settings.
-  humanURL: https://docs.perfectcorp.com/develop/introduction
-  baseURL: https://yce-api-01.makeupar.com
-  tags:
-  - V3.0
-  properties:
-  - type: OpenAPI
-    url: openapi/perfect-corp-v3-0-api-openapi.yml
-  - type: Documentation
-    url: https://docs.perfectcorp.com/develop/introduction
-  - type: APIReference
-    url: https://docs.perfectcorp.com/reference/ai_skin_analysis
-  - type: GettingStarted
-    url: https://docs.perfectcorp.com/develop/quick_start_guide
-  - type: Authentication
-    url: authentication/perfect-corp-authentication.yml
-  - type: Conventions
-    url: conventions/perfect-corp-conventions.yml
-  - type: Idempotency
-    url: conventions/perfect-corp-conventions.yml
-  - type: ErrorCatalog
-    url: errors/perfect-corp-problem-types.yml
-  - type: DataModel
-    url: data-model/perfect-corp-data-model.yml
-  - type: RateLimits
-    url: rate-limits/perfect-corp-rate-limits.yml
-  - type: Webhooks
-    url: asyncapi/perfect-corp-webhooks.yml
-  - type: Sandbox
-    url: sandbox/perfect-corp-sandbox.yml
-  - type: OAuthScopes
-    url: scopes/perfect-corp-scopes.yml
-- aid: perfect-corp:perfect-corp-v4-0-api
-  name: Perfect Corp V4.0 API
-  description: >-
-    Enhanced capabilities to include virtual try-on for outerwear, including jackets and vests. You can
-    now choose from Full Body, Upper Body, Lower Body, Shoes, or Outerwear for virtual try-on, or simply
-    select Auto and let the AI engine create the perfect outfit for you.
-  humanURL: https://docs.perfectcorp.com/develop/introduction
-  baseURL: https://yce-api-01.makeupar.com
-  tags:
-  - V4.0
-  properties:
-  - type: OpenAPI
-    url: openapi/perfect-corp-v4-0-api-openapi.yml
   - type: Documentation
     url: https://docs.perfectcorp.com/develop/introduction
   - type: APIReference
@@ -531,3 +357,10 @@ x-enrichment:
   status: enriched
   artifacts_added: 228
   pass: local-v1
+x-a2a:
+  verified: true
+  probed: '2026-09-26'
+  url: "https://docs.perfectcorp.com/.well-known/agent-card.json"
+  grade: "conformant"
+  protocol_version: "0.3.0"
+  control: 404
