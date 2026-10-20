@@ -1,11 +1,21 @@
-generated: '2026-10-15'
+generated: '2026-10-20'
 method: searched
+source:
+- shopify/integrations/shopify-integration-edges.yml
+- https://zapier.com/apps/perfect-corp/integrations
+- https://n8n.io/integrations/perfect-corp/
+- https://composio.dev/toolkits/perfect-corp
+- https://monid.ai/tools/perfect-corp
 checked:
 - https://a2aregistry.org/api/agents
 - shopify/integrations/shopify-integration-edges.yml
 - wordpress/integrations/wordpress-integration-edges.yml
-source:
-- shopify/integrations/shopify-integration-edges.yml
+- https://composio.dev/toolkits/perfect-corp
+- https://monid.ai/tools/perfect-corp
+- https://n8n.io/integrations/perfect-corp/
+- https://zapier.com/apps/perfect-corp/integrations
+summary: null
+marketplace_apps: []
 edges:
 - partner_name: Shopify (own)
   partner: shopify
@@ -25,6 +35,23 @@ edges:
   detected_by: mirror-platform-listings.py
   publisher_verified:
   - Built for Shopify
+- partner_name: WordPress (own)
+  partner: wordpress
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://wordpress.org/plugins/youcam-makeup/
+  mirror_of: wordpress/integrations/wordpress-integration-edges.yml
+  apps:
+  - YouCam Makeup For WooCommerce
+  listing_count: 1
+  detected: '2026-10-15'
+  detected_by: mirror-platform-listings.py
+  category: WordPress plugin
 - partner_name: A2A protocol (own Agent Card)
   partner: null
   partner_match: register
@@ -54,23 +81,7 @@ edges:
     matched_domain: perfectcorp.com
     matched_by: own-domain
     detected_by: sweep-ai-agents.py
-    detected: '2026-10-15'
+    detected: '2026-10-19'
   detected_by: sweep-ai-agents.py
   first_seen: '2026-10-15'
-- partner_name: WordPress (own)
-  partner: wordpress
-  partner_match: mirror
-  mirror_match: domain
-  type: marketplace
-  relationship: platform-app
-  direction: third-party
-  channel: partner-built
-  marketplace: own
-  evidence: https://wordpress.org/plugins/youcam-makeup/
-  mirror_of: wordpress/integrations/wordpress-integration-edges.yml
-  apps:
-  - YouCam Makeup For WooCommerce
-  listing_count: 1
-  detected: '2026-10-15'
-  detected_by: mirror-platform-listings.py
-  category: WordPress plugin
+templates: []

@@ -15,6 +15,19 @@
   relationship: platform-app
   status: not-a-workflow
   arazzo: null
+- slug: perfect-corp-wordpress-own
+  label: WordPress (own)
+  partner: wordpress
+  partner_name: WordPress (own)
+  category: WordPress plugin
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://wordpress.org/plugins/youcam-makeup/
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
 - slug: perfect-corp-a2a-protocol-own-agent-card
   label: A2A protocol (own Agent Card)
   partner_name: A2A protocol (own Agent Card)
@@ -34,19 +47,6 @@
     matched_domain: perfectcorp.com
     matched_by: own-domain
     detected_by: sweep-ai-agents.py
-    detected: '2026-10-15'
-  status: not-a-workflow
-  arazzo: null
-- slug: perfect-corp-wordpress-own
-  label: WordPress (own)
-  partner: wordpress
-  partner_name: WordPress (own)
-  category: WordPress plugin
-  type: marketplace
-  marketplace: own
-  channel: partner-built
-  evidence: https://wordpress.org/plugins/youcam-makeup/
-  source: edge
-  relationship: platform-app
+    detected: '2026-10-19'
   status: not-a-workflow
   arazzo: null
