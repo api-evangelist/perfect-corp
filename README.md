@@ -1,4 +1,4 @@
-# perfect-corp
+# Perfect Corp
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,49 +64,160 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Perfect Corp. is the beauty-tech company behind the YouCam apps and the **YouCam AI API** — a RESTful,
-asynchronous, task-based platform exposing 60+ AI features for beauty, skincare, hair, fashion,
-jewellery and generative image and video work, plus three hosted MCP servers for agent integration.
+Perfect Corp. is the beauty-tech company behind the YouCam apps and the YouCam AI API — a RESTful, asynchronous, task-based platform exposing 60+ AI features for beauty, skincare, hair, fashion, jewellery and generative image and video work. It publishes 65 per-feature OpenAPI 3.0.0 contracts covering 178 operations, three hosted MCP servers whose 99 tool registrations are readable anonymously, an A2A agent card, Standard Webhooks task-completion callbacks, an llms.txt, and an RFC 8414 OAuth authorization-server document. Authentication is a single API key sent as an HTTP bearer token across every surface; billing is prepaid units with a published per-feature cost API. Perfect Corp is listed on NYSE as PERF and its technology is deployed by cosmetics, skincare, fashion and jewellery brands for virtual try-on and visual commerce.
 
-## What this profile holds
+**Areas:** Beauty · Skincare · Cosmetics · Fashion · Apparel · Jewelry · Watches · hair · Virtual Try-On · Image Editing · Generative AI · Computer Vision
 
-| Surface | What was found |
+## Perfect Corp on APIs.io
+
+Everything profiled for Perfect Corp is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/perfect-corp/](https://apis.io/providers/perfect-corp/)** — or go straight to one of the APIs or properties below.
+
+### APIs (2)
+
+- [YouCam MCP Servers](https://apis.io/apis/perfect-corp/youcam-mcp-servers/) — Three hosted, remote Model Context Protocol servers fronting the YouCam AI API, split by solution category — Beauty & Skin Care (47 tools), Fashion & Retail…
+- [Perfect Corp S2s API](https://apis.io/apis/perfect-corp/perfect-corp-s2s-api/) — The S2s API from Perfect Corp — 5 operation(s) for s2s.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [Perfect Corp Webhooks](https://apis.io/asyncapis/perfect-corp/perfect-corp-webhooks/)
+
+#### MCP servers (3)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [creators](https://apis.io/servers/perfect-corp/creators/)
+- [fashion](https://apis.io/servers/perfect-corp/fashion/)
+- [YouCam MCP Servers](https://apis.io/servers/perfect-corp/youcam-mcp-servers/)
+
+#### Overlays (65)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Perfect Corp Ai_Abs_Filter Overlay](https://apis.io/overlays/perfect-corp/perfect-corp-ai_abs_filter-overlay/)
+- [Perfect Corp Ai_Aging_Simulation Overlay](https://apis.io/overlays/perfect-corp/perfect-corp-ai_aging_simulation-overlay/)
+- [Perfect Corp Ai_Avatar_Generator Overlay](https://apis.io/overlays/perfect-corp/perfect-corp-ai_avatar_generator-overlay/)
+- [Perfect Corp Ai_Background_Removal Overlay](https://apis.io/overlays/perfect-corp/perfect-corp-ai_background_removal-overlay/)
+- [Perfect Corp Ai_Bag Overlay](https://apis.io/overlays/perfect-corp/perfect-corp-ai_bag-overlay/)
+- [Perfect Corp Ai_Bangs Overlay](https://apis.io/overlays/perfect-corp/perfect-corp-ai_bangs-overlay/)
+- [Perfect Corp Ai_Beard_Style Overlay](https://apis.io/overlays/perfect-corp/perfect-corp-ai_beard_style-overlay/)
+- [Perfect Corp Ai_Body_Reshape Overlay](https://apis.io/overlays/perfect-corp/perfect-corp-ai_body_reshape-overlay/)
+- [Perfect Corp Ai_Bracelet Overlay](https://apis.io/overlays/perfect-corp/perfect-corp-ai_bracelet-overlay/)
+- [Perfect Corp Ai_Breast_Augmentation Overlay](https://apis.io/overlays/perfect-corp/perfect-corp-ai_breast_augmentation-overlay/)
+- [Perfect Corp Ai_Clothes Overlay](https://apis.io/overlays/perfect-corp/perfect-corp-ai_clothes-overlay/)
+- [Perfect Corp Ai_Color_Correction Overlay](https://apis.io/overlays/perfect-corp/perfect-corp-ai_color_correction-overlay/)
+- [Perfect Corp Ai_Earrings Overlay](https://apis.io/overlays/perfect-corp/perfect-corp-ai_earrings-overlay/)
+- [Perfect Corp Ai_Eye_Color_Lens Overlay](https://apis.io/overlays/perfect-corp/perfect-corp-ai_eye_color_lens-overlay/)
+- [Perfect Corp Ai_Fabric Overlay](https://apis.io/overlays/perfect-corp/perfect-corp-ai_fabric-overlay/)
+- [Perfect Corp Ai_Face_Analyzer Overlay](https://apis.io/overlays/perfect-corp/perfect-corp-ai_face_analyzer-overlay/)
+- [Perfect Corp Ai_Face_Lift Overlay](https://apis.io/overlays/perfect-corp/perfect-corp-ai_face_lift-overlay/)
+- [Perfect Corp Ai_Face_Reshape Overlay](https://apis.io/overlays/perfect-corp/perfect-corp-ai_face_reshape-overlay/)
+- [Perfect Corp Ai_Face_Swap Overlay](https://apis.io/overlays/perfect-corp/perfect-corp-ai_face_swap-overlay/)
+- [Perfect Corp Ai_Fitzpatrick_Skin_Type Overlay](https://apis.io/overlays/perfect-corp/perfect-corp-ai_fitzpatrick_skin_type-overlay/)
+- [Perfect Corp Ai_Hair_Color Overlay](https://apis.io/overlays/perfect-corp/perfect-corp-ai_hair_color-overlay/)
+- [Perfect Corp Ai_Hair_Density_Detection Overlay](https://apis.io/overlays/perfect-corp/perfect-corp-ai_hair_density_detection-overlay/)
+- [Perfect Corp Ai_Hair_Extension Overlay](https://apis.io/overlays/perfect-corp/perfect-corp-ai_hair_extension-overlay/)
+- [Perfect Corp Ai_Hair_Frizziness_Detection Overlay](https://apis.io/overlays/perfect-corp/perfect-corp-ai_hair_frizziness_detection-overlay/)
+- [Perfect Corp Ai_Hair_Length_Detection Overlay](https://apis.io/overlays/perfect-corp/perfect-corp-ai_hair_length_detection-overlay/)
+- …and 40 more published on APIs.io
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Perfect Corp Authentication](https://apis.io/security/perfect-corp/perfect-corp-authentication/)
+- [Perfect Corp Domain Security](https://apis.io/security/perfect-corp/perfect-corp-domain-security/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Perfect Corp Scopes](https://apis.io/scopes/perfect-corp/perfect-corp-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Perfect Corp Plans Pricing](https://apis.io/plans/perfect-corp/perfect-corp-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Perfect Corp Rate Limits](https://apis.io/rate-limits/perfect-corp/perfect-corp-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.perfectcorp.com/)
+- [Documentation](https://docs.perfectcorp.com/develop/introduction)
+- [Getting started](https://docs.perfectcorp.com/develop/quick_start_guide)
+- [API reference](https://docs.perfectcorp.com/reference/ai_skin_analysis)
+- [Pricing](https://yce.perfectcorp.com/ai-api/api-pricing)
+- [Sign up](https://yce.perfectcorp.com/ai-api)
+- [Support](https://yce.perfectcorp.com/ai-api/contact-us)
+- [Changelog](https://docs.perfectcorp.com/release/changelog)
+- [Blog](https://www.perfectcorp.com/business/blog)
+- [Terms of service](https://www.perfectcorp.com/business/terms)
+- [Privacy policy](https://www.perfectcorp.com/business/privacy)
+
+## API Evangelist rating
+
+**Kin Score 55.2** — strong · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
 |---|---|
-| **OpenAPI** | **65** per-feature OpenAPI **3.0.0** documents, **178** operations, all declaring `servers[0].url` `https://yce-api-01.makeupar.com`. Published for download at `https://docs.perfectcorp.com/_bundle/reference/<feature>.json?download` and saved verbatim in `openapi/_original/`. |
-| **MCP** | **Three hosted remote servers** — beauty (47 tools), fashion (18), creators (34). `initialize` and `tools/list` answer **anonymously**, so the real tool set with per-tool JSON Schema is captured in `mcp/*-tools-list.json`. A fourth, documentation-search MCP server runs on the docs host. |
-| **A2A** | An **Agent Card** served at `https://docs.perfectcorp.com/.well-known/agent-card.json`, protocolVersion 0.3.0, graded **conformant** — with an empty `skills[]` and an MCP extension as its real capability. |
-| **Webhooks** | Task-completion callbacks implementing the **Standard Webhooks** specification (HMAC-SHA256, `whsec_` secrets, `webhook-id`/`-timestamp`/`-signature`). No AsyncAPI is published. |
-| **/.well-known/** | Two real documents — an **RFC 8414** OAuth authorization-server metadata document on the API host (PKCE S256, RFC 7591 dynamic client registration, scopes `task.run` / `task.read`), and the agent card. |
-| **llms.txt** | `https://docs.perfectcorp.com/llms.txt`, 377 KB, indexing the whole documentation set. |
-| **Pricing** | Prepaid **units** ("Credits"), with a real per-feature price API — `GET /s2s/v2.0/credit/feature-cost` — and an MCP tool for it. |
+| Discoverability | 80.0 |
+| Contract quality | 53.7 |
+| Contract governance | 18.2 |
+| Operational transparency | 44.7 |
+| Developer ergonomics | 66.1 |
+| Access clarity | 52.6 |
 
-## Notable findings
+**Agent readiness 48.0** — agent-native
 
-- **The OAuth surface is undocumented.** An RFC 8414 authorization server is served anonymously from
-  the API host and names two scopes, but appears nowhere in the developer documentation and is
-  required by no published operation. `scopes/` is the only public record of it.
-- **No `operationId` anywhere.** All 178 operations lack one, so nothing can reference them by a
-  stable identifier. Recorded in `overlays/`, never repaired into the provider's contract.
-- **Errors arrive with HTTP 200.** Engine-level failures (`error_no_face`, `error_nsfw_content_detected`,
-  and 20 more) come back inside a 200 body with `task_status: "error"`. See `errors/`.
-- **No idempotency.** No `Idempotency-Key` on any operation; a retried task creation charges units
-  again. The one idempotency signal is inbound — the retry-stable `webhook-id`.
-- **One reversal, no cancel.** `POST /s2s/v2.0/task/delete` removes a finished task with its inputs
-  and outputs, inside a stated 30-day retention window. There is no cancel, and no MCP tool exposes
-  deletion — an agent working through MCP alone has no reversal path. See `conventions/`.
-- **No first-party SDK** in any package registry, and no Perfect Corp GitHub organization
-  (`github.com/perfectcorp` is an unrelated personal account with zero repositories).
-- **No status page, no deprecation policy, no SOC 2 / ISO 27001**; GDPR and CCPA/CPRA are covered in
-  a substantive SaaS privacy policy.
-- **Rate limits are documented but not signalled.** 250 requests / 300 s per IP *and* per token, 429
-  on exhaustion, and **no** `RateLimit-*` or `Retry-After` header on any response.
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | documented (partial credit) |
+| Auth Clarity | served (partial credit) |
+| Idempotency | documented (partial credit) |
+| Error Semantics | verified |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+| Pagination Ratio | — |
+| Operation Distinctiveness | — |
 
-## Layout
+**Regulatory alignment 36.4** — AI & Biometrics
 
-`openapi/` (+ `_original/`) · `overlays/` · `mcp/` · `a2a/` · `well-known/` · `llms/` · `skills/` ·
-`authentication/` · `scopes/` · `conventions/` · `errors/` · `data-model/` · `lifecycle/` ·
-`changelog/` · `asyncapi/` · `rate-limits/` · `plans/` · `packages/` · `sandbox/` · `conformance/` ·
-`security/`
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/perfect-corp/](https://apis.io/providers/perfect-corp/).
 
-Every artifact carries `generated` / `method` / `source` provenance frontmatter, and every probe
-records the HTTP status it actually received.
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Perfect Corp: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/perfect-corp/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
